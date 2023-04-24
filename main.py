@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 
 
 from pages.dokterpage import DokterPage
@@ -16,7 +15,6 @@ root.geometry('1080x600')
 # membuat menu bar
 menubar = tk.Menu(root)
 root.config(menu=menubar)
-root.configure(background="black")
 
 
 def homepage():
@@ -95,6 +93,7 @@ menubar.add_cascade(label="Database", menu=file_menu)
 
 # menambahkan menu help ke menu bar
 menubar.add_command(label="Help",  command=helpage)
+
 
 # Halaman
 homepages = Homepage(root)
