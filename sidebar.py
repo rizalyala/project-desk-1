@@ -14,7 +14,7 @@ class Sidebar:
         self.menu_frame.pack(side='left', fill='y')
 
         self.home_button = tk.Button(self.menu_frame, text='Home', font=(
-            'Arial', 14), command=lambda: self.on_menu_click('home'))
+            'Arial', 14), command=lambda: self.on_menu_click('home'), borderwidth=0, relief='groove')
         self.home_button.pack(pady=10)
 
         self.about_button = tk.Button(self.menu_frame, text='About', font=(
