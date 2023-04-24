@@ -1,7 +1,8 @@
 import tkinter as tk
-from tkinter import *
-from pages.dokterpage import DokterPage
+from tkinter import ttk
 
+
+from pages.dokterpage import DokterPage
 from pages.helpage import Helpage
 from pages.homepage import Homepage
 from pages.obatpage import Obatpage
@@ -9,11 +10,13 @@ from pages.pasienpage import PasienPage
 from pages.stafpage import StafPage
 
 root = tk.Tk()
-root.geometry('800x600')
+root.geometry('1080x600')
+
 
 # membuat menu bar
-menubar = Menu(root)
+menubar = tk.Menu(root)
 root.config(menu=menubar)
+root.configure(background="black")
 
 
 def homepage():
@@ -81,7 +84,7 @@ def obatpage():
 menubar.add_command(label="Home",  command=homepage)
 
 # menambahkan menu database
-file_menu = Menu(menubar, tearoff=0)
+file_menu = tk.Menu(menubar, tearoff=0)
 file_menu.add_command(label="Pasien", command=pasienpage)
 file_menu.add_command(label="Dokter", command=dokterpage)
 file_menu.add_command(label="Staf", command=stafpage)
@@ -103,4 +106,6 @@ obatpages = Obatpage(root)
 
 # Default Halaman saat di buka pertama kali
 homepages.pack(fill=tk.BOTH, expand=True)
+
+
 root.mainloop()
