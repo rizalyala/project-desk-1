@@ -41,6 +41,7 @@ class Homepage(tk.Frame):
         information_frame.grid(row=1, column=2, padx=10, pady=10)
 
         info_menu = tk.Frame(information_frame, padx=10, pady=10, height=50)
+        label_info = tk.Label(text="")
         info_menu.pack()
 
         # ROW 2
