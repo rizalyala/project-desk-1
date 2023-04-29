@@ -40,8 +40,12 @@ class Homepage(tk.Frame):
             self, text='Panel')
         information_frame.grid(row=1, column=2, padx=10, pady=10)
 
-        info_menu = tk.Frame(information_frame, padx=10, pady=10, height=50)
-        label_info = tk.Label(text="")
+        info_menu = tk.Frame(information_frame, padx=10, pady=10, height=50, )
+        label_doc = tk.Label(info_menu, text="Dokter :")
+        label_pasien = tk.Label(info_menu, text="Pasien/Ruangan :")
+
+        label_doc.pack()
+        label_pasien.pack()
         info_menu.pack()
 
         # ROW 2
