@@ -105,7 +105,7 @@ dokterpages = DokterPage(root)
 obatpages = Obatpage(root)
 
 # Default Halaman saat di buka pertama kali
-homepages.pack(fill=tk.BOTH, expand=True)
+homepages.pack(fill="both", expand=True, padx=100)
 
 
 root.mainloop()

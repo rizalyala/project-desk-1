@@ -20,7 +20,7 @@ class Homepage(tk.Frame):
         # INFORMATION PANEL-------------------------------------------------------------------
         information_frame = ttk.Notebook(
             self)
-        information_frame.grid(row=1, column=2, padx=10, pady=10)
+        information_frame.grid(row=1, column=2)
 
         info_tab1 = tk.Frame(information_frame, padx=10,
                              pady=10)
