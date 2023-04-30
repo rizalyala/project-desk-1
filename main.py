@@ -10,6 +10,7 @@ from pages.stafpage import StafPage
 
 root = tk.Tk()
 root.geometry('1080x600')
+root.resizable(False, False)
 
 
 # membuat menu bar
