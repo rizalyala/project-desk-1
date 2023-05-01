@@ -9,7 +9,7 @@ from pages.pasienpage import PasienPage
 from pages.stafpage import StafPage
 
 root = tk.Tk()
-root.geometry('1080x600')
+root.geometry('1080x700')
 root.resizable(False, False)
 
 

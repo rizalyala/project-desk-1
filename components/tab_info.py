@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 
 
 class TableHome(tk.Frame):
@@ -17,6 +18,32 @@ class TableHome(tk.Frame):
         pasien_table_frame.add(pasien_table_tab1, text="Pasien")
         pasien_table_frame.add(pasien_table_tab2, text="Dokter")
 
+        # Search bar
+
+        def search():
+            keyword = search_var.get()
+            if keyword:
+                found = False
+                for row in table1.get_children():
+                    if keyword.lower() in table1.item(row)['values'][0].lower():
+                        table1.selection_set(row)
+                        found = True
+                    else:
+                        table1.selection_remove(row)
+                if not found:
+                    messagebox.showinfo('Not found', 'Data not found.')
+            else:
+                table1.selection_clear()
+
+        search_var = tk.StringVar()
+        search_entry = ttk.Entry(
+            pasien_table_tab1, textvariable=search_var)
+        search_entry.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+
+        search_button = ttk.Button(
+            pasien_table_tab1, text="Cari Nama", command=search)
+        search_button.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
         # Tabel 1
         table1 = ttk.Treeview(pasien_table_tab1, columns=(
             "col1", "col2", "col3", "col4", "col5"))
@@ -32,7 +59,7 @@ class TableHome(tk.Frame):
         table1.heading("col3", text="Gejala")
         table1.heading("col4", text="Tanggal")
         table1.heading("col5", text="Umur")
-        table1.pack(padx=5, pady=5)
+        table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
 
         table1.insert("", "end", text="1", values=(
             "Data 1", "Data 2", "Data 3"))
