@@ -140,25 +140,121 @@ class Detailed_patient_table(tk.Frame):
         patient_frame.add(pasien_table_tab1, text="Daftar")
         patient_frame.add(pasien_table_tab2, text="Statistik")
 
+        # Search bar
+
+        def search():
+            keyword = search_var.get()
+            if keyword:
+                found = False
+                for row in table1.get_children():
+                    if keyword.lower() in table1.item(row)['values'][0].lower():
+                        table1.selection_set(row)
+                        found = True
+                    else:
+                        table1.selection_remove(row)
+                if not found:
+                    messagebox.showinfo('Not found', 'Data not found.')
+            else:
+                table1.selection_clear()
+
+        search_var = tk.StringVar()
+        search_entry = ttk.Entry(
+            pasien_table_tab1, textvariable=search_var)
+        search_entry.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+
+        search_button = ttk.Button(
+            pasien_table_tab1, text="Cari Nama", command=search)
+        search_button.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
         # Tabel 1
         table1 = ttk.Treeview(pasien_table_tab1, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6", "col7"))
-        table1.column("#0", width=50)
+            "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8"))
+
+        table1.column("#0", width=40)
         table1.column("col1", width=200)
         table1.column("col2", width=70)
-        table1.column("col3", width=150)
-        table1.column("col4", width=100)
-        table1.column("col5", width=50)
-        table1.column("col6", width=200)
-        table1.column("col7", width=70)
+        table1.column("col3", width=50)
+        table1.column("col4", width=50)
+        table1.column("col5", width=200)
+        table1.column("col6", width=100)
+        table1.column("col7", width=100)
+        table1.column("col8", width=150)
+
         table1.heading("#0", text="No.")
         table1.heading("col1", text="Nama")
         table1.heading("col2", text="Ruangan")
-        table1.heading("col3", text="Gejala")
-        table1.heading("col4", text="Tanggal")
-        table1.heading("col5", text="Umur")
-        table1.heading("col6", text="Dokter")
-        table1.heading("col7", text="Status")
+        table1.heading("col3", text="Gender")
+        table1.heading("col4", text="Umur")
+        table1.heading("col5", text="Dokter")
+        table1.heading("col6", text="Status")
+        table1.heading("col7", text="Diagnosis")
+        table1.heading("col8", text="Tanggal")
+        table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+
+        table1.insert("", "end", text="1", values=(
+            "Data 1", "Data 2", "Data 3"))
+        table1.insert("", "end", text="2", values=(
+            "Data 4", "Data 5", "Data 6"))
+        table1.insert("", "end", text="3", values=(
+            "Data 7", "Data 8", "Data 9"))
+
+
+class Detailed_doctor_table(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        # doctor ---------------------------------------------------------------------------
+        doctor_frame = ttk.Notebook(self)
+        doctor_frame.grid(row=1, column=1, padx=10, pady=10)
+
+        doctor_table_tab1 = tk.Frame(doctor_frame, padx=10,
+                                     pady=10)
+        doctor_table_tab2 = tk.Frame(doctor_frame, padx=10,
+                                     pady=10)
+        doctor_frame.add(doctor_table_tab1, text="Daftar")
+        doctor_frame.add(doctor_table_tab2, text="Statistik")
+
+        # Search bar
+
+        def search():
+            keyword = search_var.get()
+            if keyword:
+                found = False
+                for row in table1.get_children():
+                    if keyword.lower() in table1.item(row)['values'][0].lower():
+                        table1.selection_set(row)
+                        found = True
+                    else:
+                        table1.selection_remove(row)
+                if not found:
+                    messagebox.showinfo('Not found', 'Data not found.')
+            else:
+                table1.selection_clear()
+
+        search_var = tk.StringVar()
+        search_entry = ttk.Entry(
+            doctor_table_tab1, textvariable=search_var)
+        search_entry.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+
+        search_button = ttk.Button(
+            doctor_table_tab1, text="Cari Nama", command=search)
+        search_button.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
+        # Tabel 1
+        table1 = ttk.Treeview(doctor_table_tab1, columns=(
+            "col1", "col2", "col3", "col4"))
+
+        table1.column("#0", width=40)
+        table1.column("col1", width=200)
+        table1.column("col2", width=70)
+        table1.column("col3", width=100)
+        table1.column("col4", width=50)
+
+        table1.heading("#0", text="No.")
+        table1.heading("col1", text="Nama")
+        table1.heading("col2", text="Gender")
+        table1.heading("col3", text="Spesialisasi")
+        table1.heading("col4", text="Status")
         table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
 
         table1.insert("", "end", text="1", values=(
