@@ -25,7 +25,7 @@ def homepage():
     pasienpages.pack_forget()  # menghapus halaman pasien dari tampilan
     stafpages.pack_forget()  # menghapus halaman staff dari tampilan
     obatpages.pack_forget()  # menghapus halaman obat dari tampilan
-    homepages.pack(fill=tk.BOTH, expand=True)
+    homepages.pack(fill='y', expand=True)
 
 
 def helpage():
@@ -35,7 +35,7 @@ def helpage():
     pasienpages.pack_forget()  # menghapus halaman pasien dari tampilan
     stafpages.pack_forget()  # menghapus halaman staff dari tampilan
     obatpages.pack_forget()  # menghapus halaman homepages dari tampilan
-    helpages.pack(fill=tk.BOTH, expand=True)
+    helpages.pack(fill='y', expand=True)
 
 
 def pasienpage():
@@ -45,7 +45,7 @@ def pasienpage():
     helpages.pack_forget()  # menghapus halaman help dari tampilan
     stafpages.pack_forget()  # menghapus halaman staff dari tampilan
     obatpages.pack_forget()  # menghapus halaman homepages dari tampilan
-    pasienpages.pack(fill=tk.BOTH, expand=True)
+    pasienpages.pack(fill='y', expand=True)
 
 
 def dokterpage():
@@ -56,7 +56,7 @@ def dokterpage():
     stafpages.pack_forget()  # menghapus halaman staff dari tampilan
     obatpages.pack_forget()
     homepages.pack_forget()  # menghapus halaman homepages dari tampilan
-    dokterpages.pack(fill=tk.BOTH, expand=True)
+    dokterpages.pack(fill='y', expand=True)
 
 
 def stafpage():
@@ -66,7 +66,7 @@ def stafpage():
     pasienpages.pack_forget()  # menghapus halaman pasien dari tampilan
     obatpages.pack_forget()
     homepages.pack_forget()  # menghapus halaman homepages dari tampilan
-    stafpages.pack(fill=tk.BOTH, expand=True)
+    stafpages.pack(fill='y', expand=True)
 
 
 def obatpage():
@@ -76,7 +76,7 @@ def obatpage():
     pasienpages.pack_forget()  # menghapus halaman pasien dari tampilan
     stafpages.pack_forget()  # menghapus halaman staff dari tampilan
     homepages.pack_forget()  # menghapus halaman homepages dari tampilan
-    obatpages.pack(fill=tk.BOTH, expand=True)
+    obatpages.pack(fill='y', expand=True)
 
 
 # menambahkan menu file ke menu bar
@@ -105,7 +105,7 @@ dokterpages = DokterPage(root)
 obatpages = Obatpage(root)
 
 # Default Halaman saat di buka pertama kali
-homepages.pack(fill="both", expand=True, padx=100)
+homepages.pack(fill="y", expand=True, padx=100)
 
 
 root.mainloop()

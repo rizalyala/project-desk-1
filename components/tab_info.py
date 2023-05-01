@@ -123,3 +123,47 @@ class TableHomeRelatedPatient(tk.Frame):
             "Data 4", "Data 5", "Data 6"))
         table.insert("", "end", text="3", values=(
             "Data 7", "Data 8", "Data 9"))
+
+
+class Detailed_patient_table(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        # PATIENT ---------------------------------------------------------------------------
+        patient_frame = ttk.Notebook(self)
+        patient_frame.grid(row=1, column=1, padx=10, pady=10)
+
+        pasien_table_tab1 = tk.Frame(patient_frame, padx=10,
+                                     pady=10)
+        pasien_table_tab2 = tk.Frame(patient_frame, padx=10,
+                                     pady=10)
+        patient_frame.add(pasien_table_tab1, text="Daftar")
+        patient_frame.add(pasien_table_tab2, text="Statistik")
+
+        # Tabel 1
+        table1 = ttk.Treeview(pasien_table_tab1, columns=(
+            "col1", "col2", "col3", "col4", "col5", "col6", "col7"))
+        table1.column("#0", width=50)
+        table1.column("col1", width=200)
+        table1.column("col2", width=70)
+        table1.column("col3", width=150)
+        table1.column("col4", width=100)
+        table1.column("col5", width=50)
+        table1.column("col6", width=200)
+        table1.column("col7", width=70)
+        table1.heading("#0", text="No.")
+        table1.heading("col1", text="Nama")
+        table1.heading("col2", text="Ruangan")
+        table1.heading("col3", text="Gejala")
+        table1.heading("col4", text="Tanggal")
+        table1.heading("col5", text="Umur")
+        table1.heading("col6", text="Dokter")
+        table1.heading("col7", text="Status")
+        table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+
+        table1.insert("", "end", text="1", values=(
+            "Data 1", "Data 2", "Data 3"))
+        table1.insert("", "end", text="2", values=(
+            "Data 4", "Data 5", "Data 6"))
+        table1.insert("", "end", text="3", values=(
+            "Data 7", "Data 8", "Data 9"))
