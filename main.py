@@ -15,7 +15,7 @@ root.resizable(False, False)
 
 # membuat menu bar
 menubar = tk.Menu(root)
-root.config(menu=menubar)
+root.config(menu=menubar, bg="white")
 
 
 def homepage():
@@ -26,6 +26,7 @@ def homepage():
     stafpages.pack_forget()  # menghapus halaman staff dari tampilan
     obatpages.pack_forget()  # menghapus halaman obat dari tampilan
     homepages.pack(fill='y', expand=True)
+    homepages.config(bg="white")
 
 
 def helpage():
@@ -106,6 +107,6 @@ obatpages = Obatpage(root)
 
 # Default Halaman saat di buka pertama kali
 homepages.pack(fill="y", expand=True, padx=100)
-
+homepages.config(bg="white")
 
 root.mainloop()

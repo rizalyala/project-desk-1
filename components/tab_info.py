@@ -13,9 +13,9 @@ class TableHome(tk.Frame):
         pasien_table_frame.grid(row=1, column=1, padx=10, pady=10)
 
         pasien_table_tab1 = tk.Frame(pasien_table_frame, padx=10,
-                                     pady=10)
+                                     pady=10, bg="white")
         pasien_table_tab2 = tk.Frame(pasien_table_frame, padx=10,
-                                     pady=10)
+                                     pady=10, bg="white")
         pasien_table_frame.add(pasien_table_tab1, text="Pasien")
         pasien_table_frame.add(pasien_table_tab2, text="Dokter")
 

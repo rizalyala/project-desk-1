@@ -12,10 +12,12 @@ class Homepage(tk.Frame):
         # TABEL STATISTIK PASIEN -----------------------------------------------------------
         table_patient_bar = TableHome(self)
         table_patient_bar.grid(row=1, column=1)
+        table_patient_bar.config(bg="white")
 
         # PASIEN TERBARU
         table_relpatient_bar = TableHomeRelatedPatient(self)
         table_relpatient_bar.grid(row=2, column=1)
+        table_relpatient_bar.config(bg="white")
 
         # INFORMATION PANEL-------------------------------------------------------------------
         information_frame = ttk.Notebook(
