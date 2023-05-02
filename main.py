@@ -104,4 +104,5 @@ obatpages = Obatpage(root)
 # Default Halaman saat di buka pertama kali
 homepages.pack(fill="y", expand=True, padx=100)
 
+root.update()
 root.mainloop()

@@ -1,7 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
+from components.input_data import InputDataFromFirebase
 
 from components.search_bar import Search_name
+
+
+class DefaultTable():
+    def __init__(self, col_name, col_num, table, widths):
+        super().__init__()
+
+        for i in range(len(col_name)):
+            table.column(col_num[i], width=widths[i])
+            table.heading(col_num[i], text=col_name[i])
 
 
 class TableHome(tk.Frame):
@@ -23,52 +33,26 @@ class TableHome(tk.Frame):
         pasien_table_frame.add(pasien_table_tab1, text="Pasien")
         pasien_table_frame.add(pasien_table_tab2, text="Dokter")
 
-        # Tabel 1
-        table1 = ttk.Treeview(pasien_table_tab1, columns=(
-            "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
-        table1.column("#0", width=50)
-        table1.column("col1", width=200)
-        table1.column("col2", width=70)
-        table1.column("col3", width=150)
-        table1.column("col4", width=100)
-        table1.column("col5", width=50)
-        table1.heading("#0", text="No.")
-        table1.heading("col1", text="Nama")
-        table1.heading("col2", text="Ruangan")
-        table1.heading("col3", text="Gejala")
-        table1.heading("col4", text="Tanggal")
-        table1.heading("col5", text="Umur")
+        # Patient
+        columns = ["No.", "Nama", "Ruangan", "Gejala", "Tanggal", "Umur"]
+        widths = [50, 200, 70, 150, 100, 50]
+        col1 = ["#0", "col1", "col2", "col3", "col4", "col5"]
+        table1 = ttk.Treeview(
+            pasien_table_tab1, columns=(
+                "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
         table1.grid(row=1, column=0, columnspan=2)
+        DefaultTable(col_name=columns, col_num=col1,
+                     widths=widths, table=table1)
 
-        table1.insert("", "end", text="1", values=(
-            "Data 1", "Data 2", "Data 3"))
-        table1.insert("", "end", text="2", values=(
-            "Data 4", "Data 5", "Data 6"))
-        table1.insert("", "end", text="3", values=(
-            "Data 7", "Data 8", "Data 9"))
-
-        # Tabel 2
+        # Doctor
+        doc_columns = ["No.", "Nama", "Spesialis", "Status"]
+        doc_widths = [50, 200, 70, 150]
+        doc_col_num = ["#0", "col1", "col2", "col3"]
         table2 = ttk.Treeview(pasien_table_tab2, columns=(
-            "col1", "col2", "col3", "col4", "col5"))
-        table2.column("#0", width=50)
-        table2.column("col1", width=200)
-        table2.column("col2", width=70)
-        table2.column("col3", width=150)
-        table2.column("col4", width=100)
-        table2.column("col5", width=50)
-        table2.heading("#0", text="No.")
-        table2.heading("col1", text="Nama")
-        table2.heading("col2", text="Spesialis")
-        table2.heading("col3", text="Status")
-
+            "col1", "col2", "col3"), style="my_style.Treeview")
         table2.pack(padx=5, pady=5)
-
-        table2.insert("", "end", text="1", values=(
-            "Data 1", "Data 2", "Data 3"))
-        table2.insert("", "end", text="2", values=(
-            "Data 4", "Data 5", "Data 6"))
-        table2.insert("", "end", text="3", values=(
-            "Data 7", "Data 8", "Data 9"))
+        DefaultTable(col_name=doc_columns, col_num=doc_col_num,
+                     widths=doc_widths, table=table2)
 
         # Search bar
         Search_name(
@@ -99,13 +83,6 @@ class TableHomeRelatedPatient(tk.Frame):
         table.heading("col4", text="Tanggal")
         table.heading("col5", text="Umur")
         table.pack(padx=5, pady=5)
-
-        table.insert("", "end", text="1", values=(
-            "Data 1", "Data 2", "Data 3"))
-        table.insert("", "end", text="2", values=(
-            "Data 4", "Data 5", "Data 6"))
-        table.insert("", "end", text="3", values=(
-            "Data 7", "Data 8", "Data 9"))
 
 
 class Detailed_patient_table(tk.Frame):
@@ -146,18 +123,14 @@ class Detailed_patient_table(tk.Frame):
         table1.heading("col6", text="Status")
         table1.heading("col7", text="Diagnosis")
         table1.heading("col8", text="Tanggal")
-        table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
-        table1.insert("", "end", text="1", values=(
-            "Data 1", "Data 2", "Data 3"))
-        table1.insert("", "end", text="2", values=(
-            "Data 4", "Data 5", "Data 6"))
-        table1.insert("", "end", text="3", values=(
-            "Data 7", "Data 8", "Data 9"))
+        table1.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
 
         # Search bar
         Search_name(
             pasien_table_tab1, tableFrame=pasien_table_tab1, tables=table1)
+
+        # Add Button
+        InputDataFromFirebase(pasien_table_tab1, res=pasien_table_tab1)
 
 
 class Detailed_doctor_table(tk.Frame):
@@ -191,13 +164,6 @@ class Detailed_doctor_table(tk.Frame):
         table1.heading("col3", text="Spesialisasi")
         table1.heading("col4", text="Status")
         table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
-        table1.insert("", "end", text="1", values=(
-            "Data 1", "Data 2", "Data 3"))
-        table1.insert("", "end", text="2", values=(
-            "Data 4", "Data 5", "Data 6"))
-        table1.insert("", "end", text="3", values=(
-            "Data 7", "Data 8", "Data 9"))
 
         # Search bar
         Search_name(
@@ -245,13 +211,6 @@ class Detailed_staff_table(tk.Frame):
         table1.heading("col4", text="Status")
 
         table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
-        table1.insert("", "end", text="1", values=(
-            "Data 1", "Data 2", "Data 3"))
-        table1.insert("", "end", text="2", values=(
-            "Data 4", "Data 5", "Data 6"))
-        table1.insert("", "end", text="3", values=(
-            "Data 7", "Data 8", "Data 9"))
 
         # Search bar
         Search_name(
