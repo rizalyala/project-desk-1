@@ -1,6 +1,5 @@
 import tkinter as tk
 
-
 from pages.dokterpage import DokterPage
 from pages.helpage import Helpage
 from pages.homepage import Homepage
@@ -12,10 +11,9 @@ root = tk.Tk()
 root.geometry('1080x700')
 root.resizable(False, False)
 
-
 # membuat menu bar
 menubar = tk.Menu(root)
-root.config(menu=menubar, bg="white")
+root.config(menu=menubar)
 
 
 def homepage():
@@ -26,7 +24,6 @@ def homepage():
     stafpages.pack_forget()  # menghapus halaman staff dari tampilan
     obatpages.pack_forget()  # menghapus halaman obat dari tampilan
     homepages.pack(fill='y', expand=True)
-    homepages.config(bg="white")
 
 
 def helpage():
@@ -96,7 +93,6 @@ menubar.add_cascade(label="Database", menu=file_menu)
 # menambahkan menu help ke menu bar
 menubar.add_command(label="Help",  command=helpage)
 
-
 # Halaman
 homepages = Homepage(root)
 helpages = Helpage(root)
@@ -107,6 +103,5 @@ obatpages = Obatpage(root)
 
 # Default Halaman saat di buka pertama kali
 homepages.pack(fill="y", expand=True, padx=100)
-homepages.config(bg="white")
 
 root.mainloop()

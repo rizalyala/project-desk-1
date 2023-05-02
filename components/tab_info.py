@@ -8,20 +8,24 @@ class TableHome(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
+        # STYLE
+        style = ttk.Style(self)
+        style.configure("my_style.Treeview.Heading",
+                        background="black", foreground="grey")
         # PATIENT ---------------------------------------------------------------------------
         pasien_table_frame = ttk.Notebook(self)
         pasien_table_frame.grid(row=1, column=1, padx=10, pady=10)
 
-        pasien_table_tab1 = tk.Frame(pasien_table_frame, padx=10,
-                                     pady=10, bg="white")
+        pasien_table_tab1 = tk.Frame(pasien_table_frame, padx=20,
+                                     pady=20, borderwidth=0)
         pasien_table_tab2 = tk.Frame(pasien_table_frame, padx=10,
-                                     pady=10, bg="white")
+                                     pady=10)
         pasien_table_frame.add(pasien_table_tab1, text="Pasien")
         pasien_table_frame.add(pasien_table_tab2, text="Dokter")
 
         # Tabel 1
         table1 = ttk.Treeview(pasien_table_tab1, columns=(
-            "col1", "col2", "col3", "col4", "col5"))
+            "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
         table1.column("#0", width=50)
         table1.column("col1", width=200)
         table1.column("col2", width=70)
@@ -34,7 +38,7 @@ class TableHome(tk.Frame):
         table1.heading("col3", text="Gejala")
         table1.heading("col4", text="Tanggal")
         table1.heading("col5", text="Umur")
-        table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        table1.grid(row=1, column=0, columnspan=2)
 
         table1.insert("", "end", text="1", values=(
             "Data 1", "Data 2", "Data 3"))
