@@ -95,6 +95,12 @@ class Detailed_patient_table(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
+        def delete_data(index):
+            # Mendapatkan key dari data yang ingin dihapus
+            key = db.child("pasien_datas").get().val()[index]["key"]
+            # Menghapus data dari Firebase
+            db.child("pasien_datas").child(key).remove()
+
         # PATIENT ---------------------------------------------------------------------------
         patient_frame = ttk.Notebook(self)
         patient_frame.grid(row=1, column=1, padx=10, pady=10)
@@ -106,7 +112,7 @@ class Detailed_patient_table(tk.Frame):
         patient_frame.add(pasien_table_tab1, text="Daftar")
         patient_frame.add(pasien_table_tab2, text="Statistik")
 
-        # Tabel 1
+        # Tabel
         pat_det_columns = ["No.", "Nama", "Ruangan", "Gender",
                            "Umur", "Dokter", "Status", "Diagnosis", "Tanggal", ]
         pat_det_widths = [50, 200, 70, 50, 50, 200, 100, 100, 150]
@@ -119,11 +125,16 @@ class Detailed_patient_table(tk.Frame):
                      widths=pat_det_widths, table=table_pat_det)
         table_pat_det.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
 
+        # Read Data
         data = db.child("pasien_datas").get()
+
+        index = 1
         for row in data.each():
             values = (row.val()["Nama"], row.val()["Ruang"], "",
-                      row.val()["Usia"], "", "", row.val()["Diagnosis"],)
-            table_pat_det.insert('', 'end', text=row.key(), values=values)
+                      row.val()["Usia"], "", "", row.val()["Diagnosis"], delete_button)
+
+            table_pat_det.insert('', 'end', text=str(index), values=values)
+            index += 1
 
         # Search bar
         Search_name(
