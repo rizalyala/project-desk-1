@@ -40,13 +40,12 @@ class InputDataFromFirebase(tk.Frame):
                 entries[field] = entry_
 
             def submiting_data():
-                if submit_:
-                    entry_.delete(0, tk.END)
-                    data = {}
-                    for field in fields:
-                        data[field] = entries[field].get()
-
+                data = {}
+                for field in fields:
+                    data[field] = entries[field].get()
+                    entries[field].delete(0, tk.END)
                 db.child("pasien_datas").push(data)
+
             submit_ = tk.Button(
                 window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
             submit_.grid(row=6, column=1, columnspan=2)

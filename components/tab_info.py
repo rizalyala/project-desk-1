@@ -1,8 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 from components.input_data import InputDataFromFirebase
-
+import pyrebase
 from components.search_bar import Search_name
+
+firebaseConfig = {
+    "apiKey": "AIzaSyCDhnuglYOPe9B3N3eqBn_tvw2IOqxdQZc",
+    "authDomain": "sirs-01-3adfc.firebaseapp.com",
+    "databaseURL": "https://sirs-01-3adfc-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "projectId": "sirs-01-3adfc",
+    "storageBucket": "sirs-01-3adfc.appspot.com",
+    "messagingSenderId": "1017194189692",
+    "appId": "1:1017194189692:web:76b902e8d1a65a5addcaf9"
+}
+firebase = pyrebase.initialize_app(firebaseConfig)
+db = firebase.database()
 
 
 class DefaultTable():
@@ -124,6 +136,12 @@ class Detailed_patient_table(tk.Frame):
         table1.heading("col7", text="Diagnosis")
         table1.heading("col8", text="Tanggal")
         table1.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+
+        data = db.child("pasien_datas").get()
+        for row in data.each():
+            values = (row.val()["Nama"], row.val()["Ruang"], "",
+                      row.val()["Usia"], "", "", row.val()["Diagnosis"],)
+            table1.insert('', 'end', text=row.key(), values=values)
 
         # Search bar
         Search_name(
