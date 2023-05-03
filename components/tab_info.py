@@ -46,15 +46,15 @@ class TableHome(tk.Frame):
         pasien_table_frame.add(pasien_table_tab2, text="Dokter")
 
         # Patient
-        columns = ["No.", "Nama", "Ruangan", "Gejala", "Tanggal", "Umur"]
-        widths = [50, 200, 70, 150, 100, 50]
-        col1 = ["#0", "col1", "col2", "col3", "col4", "col5"]
+        pat_columns = ["No.", "Nama", "Ruangan", "Gejala", "Tanggal", "Umur"]
+        pat_widths = [50, 200, 70, 150, 100, 50]
+        pat_col_num = ["#0", "col1", "col2", "col3", "col4", "col5"]
         table1 = ttk.Treeview(
             pasien_table_tab1, columns=(
                 "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
         table1.grid(row=1, column=0, columnspan=2)
-        DefaultTable(col_name=columns, col_num=col1,
-                     widths=widths, table=table1)
+        DefaultTable(col_name=pat_columns, col_num=pat_col_num,
+                     widths=pat_widths, table=table1)
 
         # Doctor
         doc_columns = ["No.", "Nama", "Spesialis", "Status"]
@@ -76,25 +76,19 @@ class TableHomeRelatedPatient(tk.Frame):
         super().__init__(parent, *args, **kwargs)
 
         # RELATED PATIENT---------------------------------------------------------------------
+        rel_columns = ["No.", "Nama", "Ruangan", "Gejala", "Tanggal", "Umur"]
+        rel_widths = [50, 200, 70, 150, 100, 50]
+        rel_col_num = ["#0", "col1", "col2", "col3", "col4", "col5"]
+
         related_pasien_table_frame = ttk.LabelFrame(
             self, text="Pasien terbaru")
         related_pasien_table_frame.grid(row=2, column=1, padx=10, pady=10)
 
         table = ttk.Treeview(related_pasien_table_frame, columns=(
             "col1", "col2", "col3", "col4", "col5"))
-        table.column("#0", width=50)
-        table.column("col1", width=200)
-        table.column("col2", width=70)
-        table.column("col3", width=150)
-        table.column("col4", width=100)
-        table.column("col5", width=50)
-        table.heading("#0", text="No.")
-        table.heading("col1", text="Nama")
-        table.heading("col2", text="Ruangan")
-        table.heading("col3", text="Gejala")
-        table.heading("col4", text="Tanggal")
-        table.heading("col5", text="Umur")
         table.pack(padx=5, pady=5)
+        DefaultTable(col_name=rel_columns, col_num=rel_col_num,
+                     widths=rel_widths, table=table)
 
 
 class Detailed_patient_table(tk.Frame):
@@ -113,39 +107,27 @@ class Detailed_patient_table(tk.Frame):
         patient_frame.add(pasien_table_tab2, text="Statistik")
 
         # Tabel 1
-        table1 = ttk.Treeview(pasien_table_tab1, columns=(
+        pat_det_columns = ["No.", "Nama", "Ruangan", "Gender",
+                           "Umur", "Dokter", "Status", "Diagnosis", "Tanggal", ]
+        pat_det_widths = [50, 200, 70, 50, 50, 200, 100, 100, 150]
+        pat_det_col_num = ["#0", "col1", "col2", "col3",
+                           "col4", "col5", "col6", "col7", "col8"]
+        table_pat_det = ttk.Treeview(pasien_table_tab1, columns=(
             "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8"))
 
-        table1.column("#0", width=40)
-        table1.column("col1", width=200)
-        table1.column("col2", width=70)
-        table1.column("col3", width=50)
-        table1.column("col4", width=50)
-        table1.column("col5", width=200)
-        table1.column("col6", width=100)
-        table1.column("col7", width=100)
-        table1.column("col8", width=150)
-
-        table1.heading("#0", text="No.")
-        table1.heading("col1", text="Nama")
-        table1.heading("col2", text="Ruangan")
-        table1.heading("col3", text="Gender")
-        table1.heading("col4", text="Umur")
-        table1.heading("col5", text="Dokter")
-        table1.heading("col6", text="Status")
-        table1.heading("col7", text="Diagnosis")
-        table1.heading("col8", text="Tanggal")
-        table1.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+        DefaultTable(col_name=pat_det_columns, col_num=pat_det_col_num,
+                     widths=pat_det_widths, table=table_pat_det)
+        table_pat_det.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
 
         data = db.child("pasien_datas").get()
         for row in data.each():
             values = (row.val()["Nama"], row.val()["Ruang"], "",
                       row.val()["Usia"], "", "", row.val()["Diagnosis"],)
-            table1.insert('', 'end', text=row.key(), values=values)
+            table_pat_det.insert('', 'end', text=row.key(), values=values)
 
         # Search bar
         Search_name(
-            pasien_table_tab1, tableFrame=pasien_table_tab1, tables=table1)
+            pasien_table_tab1, tableFrame=pasien_table_tab1, tables=table_pat_det)
 
         # Add Button
         InputDataFromFirebase(pasien_table_tab1, res=pasien_table_tab1)
@@ -166,26 +148,22 @@ class Detailed_doctor_table(tk.Frame):
         doctor_frame.add(doctor_table_tab1, text="Daftar")
         doctor_frame.add(doctor_table_tab2, text="Statistik")
 
-        # Tabel 1
-        table1 = ttk.Treeview(doctor_table_tab1, columns=(
-            "col1", "col2", "col3", "col4"))
-
-        table1.column("#0", width=40)
-        table1.column("col1", width=200)
-        table1.column("col2", width=70)
-        table1.column("col3", width=100)
-        table1.column("col4", width=50)
-
-        table1.heading("#0", text="No.")
-        table1.heading("col1", text="Nama")
-        table1.heading("col2", text="Gender")
-        table1.heading("col3", text="Spesialisasi")
-        table1.heading("col4", text="Status")
-        table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        doc_columns = ["No.", "Nama", "Spesialis", "Status"]
+        doc_widths = [50, 200, 70, 150]
+        doc_col_num = ["#0", "col1", "col2", "col3"]
+        table2 = ttk.Treeview(doctor_table_tab1, columns=(
+            "col1", "col2", "col3"), style="my_style.Treeview")
+        table2.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        DefaultTable(col_name=doc_columns, col_num=doc_col_num,
+                     widths=doc_widths, table=table2)
 
         # Search bar
         Search_name(
-            doctor_table_tab1, tableFrame=doctor_table_tab1, tables=table1)
+            doctor_table_tab1, tableFrame=doctor_table_tab1, tables=table2)
+
+        # Search bar
+        Search_name(
+            doctor_table_tab1, tableFrame=doctor_table_tab1, tables=table2)
 
 
 class Detailed_staff_table(tk.Frame):
@@ -212,24 +190,15 @@ class Detailed_staff_table(tk.Frame):
         staff_frame.add(staff_table_tab4, text="Driver")
         staff_frame.add(staff_table_tab5, text="Helper")
 
-        # Tabel 1
-        table1 = ttk.Treeview(staff_table_tab1, columns=(
-            "col1", "col2", "col3", "col4"))
-
-        table1.column("#0", width=40)
-        table1.column("col1", width=200)
-        table1.column("col2", width=70)
-        table1.column("col3", width=100)
-        table1.column("col4", width=50)
-
-        table1.heading("#0", text="No.")
-        table1.heading("col1", text="Nama")
-        table1.heading("col2", text="Gender")
-        table1.heading("col3", text="Spesialisasi")
-        table1.heading("col4", text="Status")
-
-        table1.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        staff_columns = ["No.", "Nama", "Gender", "Spesialis", "Status"]
+        staff_widths = [40, 200, 70, 100, 50]
+        staff_col_num = ["#0", "col1", "col2", "col3", "col4"]
+        table2 = ttk.Treeview(staff_table_tab1, columns=(
+            "col1", "col2", "col3", "col4"), style="my_style.Treeview")
+        table2.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        DefaultTable(col_name=staff_columns, col_num=staff_col_num,
+                     widths=staff_widths, table=table2)
 
         # Search bar
         Search_name(
-            staff_table_tab1, tableFrame=staff_table_tab1, tables=table1)
+            staff_table_tab1, tableFrame=staff_table_tab1, tables=table2)
