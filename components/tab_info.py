@@ -131,7 +131,7 @@ class Detailed_patient_table(tk.Frame):
         index = 1
         for row in data.each():
             values = (row.val()["Nama"], row.val()["Ruang"], "",
-                      row.val()["Usia"], "", "", row.val()["Diagnosis"], delete_button)
+                      row.val()["Usia"], "", "", row.val()["Diagnosis"])
 
             table_pat_det.insert('', 'end', text=str(index), values=values)
             index += 1
