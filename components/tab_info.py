@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from components.input_data import InputDataFromFirebase
+from components.input_data import EditFormFirebase, FormInputFirebase
 import pyrebase
 from components.search_bar import Search_name
 
@@ -95,12 +95,6 @@ class Detailed_patient_table(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
-        def delete_data(index):
-            # Mendapatkan key dari data yang ingin dihapus
-            key = db.child("pasien_datas").get().val()[index]["key"]
-            # Menghapus data dari Firebase
-            db.child("pasien_datas").child(key).remove()
-
         # PATIENT ---------------------------------------------------------------------------
         patient_frame = ttk.Notebook(self)
         patient_frame.grid(row=1, column=1, padx=10, pady=10)
@@ -113,8 +107,11 @@ class Detailed_patient_table(tk.Frame):
         patient_frame.add(pasien_table_tab2, text="Statistik")
 
         # Tabel
+        pat_det_entry_list = ['Nama', 'Ruangan', 'Gender',
+                              'Usia', "Dokter", "Status", 'Diagnosis', "Tanggal"]
         pat_det_columns = ["No.", "Nama", "Ruangan", "Gender",
-                           "Umur", "Dokter", "Status", "Diagnosis", "Tanggal", ]
+                           "Usia", "Dokter", "Status", "Diagnosis", "Tanggal"]
+
         pat_det_widths = [50, 200, 70, 50, 50, 200, 100, 100, 150]
         pat_det_col_num = ["#0", "col1", "col2", "col3",
                            "col4", "col5", "col6", "col7", "col8"]
@@ -129,19 +126,30 @@ class Detailed_patient_table(tk.Frame):
         data = db.child("pasien_datas").get()
 
         index = 1
-        for row in data.each():
-            values = (row.val()["Nama"], row.val()["Ruang"], "",
-                      row.val()["Usia"], "", "", row.val()["Diagnosis"])
+        if data.each():
+            for row in data.each():
+                values = (row.val()["Nama"], row.val()["Ruangan"], row.val()["Gender"],
+                          row.val()["Usia"], "", "", row.val()["Diagnosis"], "")
 
+                table_pat_det.insert('', 'end', text=str(index), values=values)
+                index += 1
+
+        else:
+            # Add one row with message "No data available"
+            values = ("No data available", "", "", "", "", "", "", "")
             table_pat_det.insert('', 'end', text=str(index), values=values)
-            index += 1
+
+        # Edit
+        EditFormFirebase(pasien_table_tab1, table=table_pat_det,
+                         table_tab=pasien_table_tab1, fieldsList=pat_det_entry_list)
 
         # Search bar
         Search_name(
             pasien_table_tab1, tableFrame=pasien_table_tab1, tables=table_pat_det)
 
         # Add Button
-        InputDataFromFirebase(pasien_table_tab1, res=pasien_table_tab1)
+        FormInputFirebase(
+            pasien_table_tab1, res=pasien_table_tab1, fieldsList=pat_det_entry_list)
 
 
 class Detailed_doctor_table(tk.Frame):
