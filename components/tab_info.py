@@ -114,7 +114,9 @@ class Detailed_patient_table(tk.Frame):
 
         # Tabel
         pat_det_columns = ["No.", "Nama", "Ruangan", "Gender",
-                           "Umur", "Dokter", "Status", "Diagnosis", "Tanggal", ]
+                           "Usia", "Dokter", "Status", "Diagnosis", "Tanggal", ]
+        pat_det_fields = ['Nama', 'Ruangan', "Gender",
+                          'Usia', 'Dokter', "Status", 'Diagnosis', "Tanggal"]
         pat_det_widths = [50, 200, 70, 50, 50, 200, 100, 100, 150]
         pat_det_col_num = ["#0", "col1", "col2", "col3",
                            "col4", "col5", "col6", "col7", "col8"]
@@ -130,8 +132,8 @@ class Detailed_patient_table(tk.Frame):
 
         index = 1
         for row in data.each():
-            values = (row.val()["Nama"], row.val()["Ruang"], "",
-                      row.val()["Usia"], "", "", row.val()["Diagnosis"])
+            values = (row.val()["Nama"], row.val()["Ruangan"], row.val()["Gender"],
+                      row.val()["Usia"], row.val()["Dokter"], row.val()["Status"], row.val()["Diagnosis"], row.val()["Tanggal"])
 
             table_pat_det.insert('', 'end', text=str(index), values=values)
             index += 1
@@ -141,7 +143,8 @@ class Detailed_patient_table(tk.Frame):
             pasien_table_tab1, tableFrame=pasien_table_tab1, tables=table_pat_det)
 
         # Add Button
-        InputDataFromFirebase(pasien_table_tab1, res=pasien_table_tab1)
+        InputDataFromFirebase(
+            pasien_table_tab1, res=pasien_table_tab1, fieldslist=pat_det_fields)
 
 
 class Detailed_doctor_table(tk.Frame):
