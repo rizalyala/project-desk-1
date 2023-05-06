@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import sqlite3
 from components.input_data import InputDataFromFirebase
 from components.search_bar import Search_name
 
@@ -108,16 +109,17 @@ class Detailed_patient_table(tk.Frame):
                      widths=pat_det_widths, table=table_pat_det)
         table_pat_det.grid(row=1, column=0, columnspan=4, padx=5, pady=5)
 
+        # membuat koneksi ke database
+        conn = sqlite3.connect('pasien.db')
+        c = conn.cursor()
         # Read Data
-        # data = db.child("pasien_datas").get()
+        c.execute("SELECT * FROM pasien")
+        result = c.fetchall()
 
-        # index = 1
-        # for row in data.each():
-        #     values = (row.val()["Nama"], row.val()["Ruangan"], row.val()["Gender"],
-        #               row.val()["Usia"], row.val()["Dokter"], row.val()["Status"], row.val()["Diagnosis"], row.val()["Tanggal"])
-
-        #     table_pat_det.insert('', 'end', text=str(index), values=values)
-        #     index += 1
+        for i, row in enumerate(result):
+            table_pat_det.insert('', 'end', values=(
+                i+1, row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
+            conn.close()
 
         # Search bar
         Search_name(

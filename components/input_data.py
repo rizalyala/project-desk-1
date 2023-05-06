@@ -1,18 +1,5 @@
 import tkinter as tk
-import pyrebase
-
-# Database
-firebaseConfig = {
-    "apiKey": "AIzaSyCDhnuglYOPe9B3N3eqBn_tvw2IOqxdQZc",
-    "authDomain": "sirs-01-3adfc.firebaseapp.com",
-    "databaseURL": "https://sirs-01-3adfc-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "projectId": "sirs-01-3adfc",
-    "storageBucket": "sirs-01-3adfc.appspot.com",
-    "messagingSenderId": "1017194189692",
-    "appId": "1:1017194189692:web:76b902e8d1a65a5addcaf9"
-}
-firebase = pyrebase.initialize_app(firebaseConfig)
-db = firebase.database()
+import sqlite3
 
 
 class InputDataFromFirebase(tk.Frame):
@@ -43,7 +30,22 @@ class InputDataFromFirebase(tk.Frame):
                 for field in fieldslist:
                     data[field] = entries[field].get()
                     entries[field].delete(0, tk.END)
-                db.child("pasien_datas").push(data)
+
+                # membuat koneksi ke database
+                conn = sqlite3.connect('pasien.db')
+                c = conn.cursor()
+
+                # membuat tabel jika belum ada
+                c.execute('''CREATE TABLE IF NOT EXISTS pasien
+                            (Nama TEXT, Ruangan INTEGER, Gender TEXT, Usia TEXT)''')
+
+                # menambahkan data ke tabel
+                c.execute("INSERT INTO pasien VALUES (?, ?, ?, ?)",
+                          (data['Nama'], data['Ruangan'], data['Gender'], data['Usia']))
+                conn.commit()
+
+                # menutup koneksi ke database
+                conn.close()
 
             submit_ = tk.Button(
                 window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
