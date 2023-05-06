@@ -1,20 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from components.input_data import InputDataFromFirebase
-import pyrebase
 from components.search_bar import Search_name
-
-firebaseConfig = {
-    "apiKey": "AIzaSyCDhnuglYOPe9B3N3eqBn_tvw2IOqxdQZc",
-    "authDomain": "sirs-01-3adfc.firebaseapp.com",
-    "databaseURL": "https://sirs-01-3adfc-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "projectId": "sirs-01-3adfc",
-    "storageBucket": "sirs-01-3adfc.appspot.com",
-    "messagingSenderId": "1017194189692",
-    "appId": "1:1017194189692:web:76b902e8d1a65a5addcaf9"
-}
-firebase = pyrebase.initialize_app(firebaseConfig)
-db = firebase.database()
 
 
 class DefaultTable():
@@ -95,12 +82,6 @@ class Detailed_patient_table(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
-        def delete_data(index):
-            # Mendapatkan key dari data yang ingin dihapus
-            key = db.child("pasien_datas").get().val()[index]["key"]
-            # Menghapus data dari Firebase
-            db.child("pasien_datas").child(key).remove()
-
         # PATIENT ---------------------------------------------------------------------------
         patient_frame = ttk.Notebook(self)
         patient_frame.grid(row=1, column=1, padx=10, pady=10)
@@ -114,7 +95,7 @@ class Detailed_patient_table(tk.Frame):
 
         # Tabel
         pat_det_columns = ["No.", "Nama", "Ruangan", "Gender",
-                           "Usia", "Dokter", "Status", "Diagnosis", "Tanggal", ]
+                           "Usia", "Dokter", "Status", "Diagnosis", "Tanggal"]
         pat_det_fields = ['Nama', 'Ruangan', "Gender",
                           'Usia', 'Dokter', "Status", 'Diagnosis', "Tanggal"]
         pat_det_widths = [50, 200, 70, 50, 50, 200, 100, 100, 150]
@@ -125,26 +106,26 @@ class Detailed_patient_table(tk.Frame):
 
         DefaultTable(col_name=pat_det_columns, col_num=pat_det_col_num,
                      widths=pat_det_widths, table=table_pat_det)
-        table_pat_det.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+        table_pat_det.grid(row=1, column=0, columnspan=4, padx=5, pady=5)
 
         # Read Data
-        data = db.child("pasien_datas").get()
+        # data = db.child("pasien_datas").get()
 
-        index = 1
-        for row in data.each():
-            values = (row.val()["Nama"], row.val()["Ruangan"], row.val()["Gender"],
-                      row.val()["Usia"], row.val()["Dokter"], row.val()["Status"], row.val()["Diagnosis"], row.val()["Tanggal"])
+        # index = 1
+        # for row in data.each():
+        #     values = (row.val()["Nama"], row.val()["Ruangan"], row.val()["Gender"],
+        #               row.val()["Usia"], row.val()["Dokter"], row.val()["Status"], row.val()["Diagnosis"], row.val()["Tanggal"])
 
-            table_pat_det.insert('', 'end', text=str(index), values=values)
-            index += 1
+        #     table_pat_det.insert('', 'end', text=str(index), values=values)
+        #     index += 1
 
         # Search bar
         Search_name(
-            pasien_table_tab1, tableFrame=pasien_table_tab1, tables=table_pat_det)
+            pasien_table_tab1, pasien_table_tab1, table_pat_det)
 
         # Add Button
         InputDataFromFirebase(
-            pasien_table_tab1, res=pasien_table_tab1, fieldslist=pat_det_fields)
+            pasien_table_tab1, pat_det_fields)
 
 
 class Detailed_doctor_table(tk.Frame):

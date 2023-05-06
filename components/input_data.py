@@ -16,11 +16,10 @@ db = firebase.database()
 
 
 class InputDataFromFirebase(tk.Frame):
-    def __init__(self, parent, res, fieldslist):
+    def __init__(self, parent, fieldslist):
         super().__init__(parent)
 
         # Window
-
         def input_window():
             window = tk.Toplevel()
             window.title("Tambah Data Pasien")
@@ -52,5 +51,5 @@ class InputDataFromFirebase(tk.Frame):
 
         # Main
         input_button = tk.Button(
-            res, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
+            parent, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
         input_button.grid(row=0, column=2, sticky="e", padx=5, pady=5)
