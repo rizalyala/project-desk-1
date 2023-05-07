@@ -37,11 +37,11 @@ class InputDataFromFirebase(tk.Frame):
 
                 # membuat tabel jika belum ada
                 c.execute('''CREATE TABLE IF NOT EXISTS pasien
-                            (Nama TEXT, Ruangan INTEGER, Gender TEXT, Usia TEXT)''')
+                            (Nama TEXT, Ruangan INTEGER, Gender TEXT, Usia TEXT,Dokter TEXT, Status TEXT, Diagnosis TEXT, Tanggal TEXT)''')
 
                 # menambahkan data ke tabel
-                c.execute("INSERT INTO pasien VALUES (?, ?, ?, ?)",
-                          (data['Nama'], data['Ruangan'], data['Gender'], data['Usia']))
+                c.execute("INSERT INTO pasien VALUES (?, ?, ?, ?,?,?,?,?)",
+                          (data['Nama'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal']))
                 conn.commit()
 
                 # menutup koneksi ke database

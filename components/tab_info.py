@@ -116,10 +116,13 @@ class Detailed_patient_table(tk.Frame):
         c.execute("SELECT * FROM pasien")
         result = c.fetchall()
 
-        for i, row in enumerate(result):
-            table_pat_det.insert('', 'end', values=(
-                i+1, row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
-            conn.close()
+        index = 1
+        for row in result:
+            table_pat_det.insert('', 'end', text=str(index), values=(
+                row[0], row[1], row[2], row[3], row[4]))
+
+            index += 1
+        conn.close()
 
         # Search bar
         Search_name(
@@ -153,10 +156,6 @@ class Detailed_doctor_table(tk.Frame):
         table2.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
         DefaultTable(col_name=doc_columns, col_num=doc_col_num,
                      widths=doc_widths, table=table2)
-
-        # Search bar
-        Search_name(
-            doctor_table_tab1, tableFrame=doctor_table_tab1, tables=table2)
 
         # Search bar
         Search_name(
