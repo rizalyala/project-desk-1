@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import sqlite3
-from components.input_data import InputDataFromFirebase
+from components.input_data import InputDataFromFirebase, Update
 from components.search_bar import Search_name
 
 
@@ -95,34 +95,46 @@ class Detailed_patient_table(tk.Frame):
         patient_frame.add(pasien_table_tab2, text="Statistik")
 
         # Tabel
-        pat_det_columns = ["No.", "Nama", "Ruangan", "Gender",
+        pat_det_columns = ["No.", 'ID', "Nama", "Ruangan", "Gender",
                            "Usia", "Dokter", "Status", "Diagnosis", "Tanggal"]
         pat_det_fields = ['Nama', 'Ruangan', "Gender",
                           'Usia', 'Dokter', "Status", 'Diagnosis', "Tanggal"]
-        pat_det_widths = [50, 200, 70, 50, 50, 200, 100, 100, 150]
+        pat_det_widths = [50, 100, 200, 70, 50, 50, 200, 100, 100, 150]
         pat_det_col_num = ["#0", "col1", "col2", "col3",
-                           "col4", "col5", "col6", "col7", "col8"]
+                           "col4", "col5", "col6", "col7", "col8", "col9"]
         table_pat_det = ttk.Treeview(pasien_table_tab1, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8"))
-
-        DefaultTable(col_name=pat_det_columns, col_num=pat_det_col_num,
-                     widths=pat_det_widths, table=table_pat_det)
-        table_pat_det.grid(row=1, column=0, columnspan=4, padx=5, pady=5)
+            "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9"))
 
         # membuat koneksi ke database
         conn = sqlite3.connect('pasien.db')
         c = conn.cursor()
+
         # Read Data
-        c.execute("SELECT * FROM pasien")
-        result = c.fetchall()
 
-        index = 1
-        for row in result:
-            table_pat_det.insert('', 'end', text=str(index), values=(
-                row[0], row[1], row[2], row[3], row[4]))
+        c.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='pasien'")
+        result = c.fetchone()
 
-            index += 1
-        conn.close()
+        if result:
+            # tabel tersedia, lakukan operasi yang diinginkan
+            c.execute("SELECT * FROM pasien")
+            data = c.fetchall()
+
+            index = 1
+            for row in data:
+                table_pat_det.insert('', 'end', text=str(index), values=(
+                    row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+
+                index += 1
+            conn.close()
+
+        else:
+            # tabel tidak tersedia, tampilkan pesan kesalahan
+            print("Tabel 'pasien' tidak tersedia di dalam database.")
+
+        DefaultTable(col_name=pat_det_columns, col_num=pat_det_col_num,
+                     widths=pat_det_widths, table=table_pat_det)
+        table_pat_det.grid(row=1, column=0, columnspan=4, padx=5, pady=5)
 
         # Search bar
         Search_name(
@@ -131,6 +143,9 @@ class Detailed_patient_table(tk.Frame):
         # Add Button
         InputDataFromFirebase(
             pasien_table_tab1, pat_det_fields)
+
+        # Update
+        Update(pasien_table_tab1, pat_det_fields, table_pat_det)
 
 
 class Detailed_doctor_table(tk.Frame):
