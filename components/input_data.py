@@ -1,5 +1,6 @@
 import tkinter as tk
-from components.querydb import AddPasien, UpdatePasien
+from components.querydb import AddPasien, DeletePasien, UpdatePasien
+import tkinter.messagebox as messagebox
 
 
 class InputDataFromFirebase(tk.Frame):
@@ -66,13 +67,28 @@ class Update(tk.Frame):
                 entries[field] = entry_
 
             def submiting_data():
-                UpdatePasien(fieldslist, entries)
+                UpdatePasien(fieldslist, entries, table)
 
             submit_ = tk.Button(
-                window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
+                window, text="Update", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
             submit_.grid(row=10, column=1, columnspan=2)
 
         # Main
         input_button = tk.Button(
             parent, text="Edit", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
         input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
+
+
+class DeleteData(tk.Frame):
+    def __init__(self, parent, table):
+        super().__init__()
+
+        def deleted():
+            confirm = messagebox.askyesno("Hapus", "Yakin ingin menghapus ?")
+            if confirm:
+                DeletePasien(table)
+                messagebox.showinfo("", "Data terhapus")
+
+        input_button = tk.Button(
+            parent, text="Delete", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=deleted)
+        input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)

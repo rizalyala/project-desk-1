@@ -3,6 +3,8 @@ import tkinter
 import random
 import string
 
+# Add
+
 
 class AddPasien():
     def __init__(self, fieldslist, entries):
@@ -31,9 +33,11 @@ class AddPasien():
         # menutup koneksi ke database
         conn.close()
 
+# Update
+
 
 class UpdatePasien():
-    def __init__(self, fieldslist, entries):
+    def __init__(self, fieldslist, entries, table):
         super().__init__()
         data = {}
         for field in fieldslist:
@@ -44,10 +48,29 @@ class UpdatePasien():
         conn = sqlite3.connect('pasien.db')
         c = conn.cursor()
 
+        selected_item = table.selection()[0]
+        values = table.item(selected_item)["values"]
         # menambahkan data ke tabel
-        c.execute("UPDATE pasien SET Nama = ?, Ruangan = ?, Gender = ?, Usia = ?, Dokter = ?, Status = ?, Diagnosis = ?, Tanggal =? WHERE ID = ?",
-                  (data['Nama'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal'], data[field]))
+        c.execute("UPDATE pasien SET Nama = ?, Ruangan = ?, Gender = ?, Usia = ?, Dokter = ?, Status = ?, Diagnosis = ?, Tanggal =? WHERE id = ?",
+                  (data['Nama'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal'], values[0]))
         conn.commit()
 
         # menutup koneksi ke database
+        conn.close()
+
+# Delete
+
+
+class DeletePasien():
+    def __init__(self, table):
+        super().__init__()
+        # membuat koneksi ke database
+        conn = sqlite3.connect('pasien.db')
+        c = conn.cursor()
+
+        selected_item = table.selection()[0]
+        values = table.item(selected_item)["values"]
+
+        c.execute("DELETE FROM pasien WHERE id=?", (values[0],))
+        conn.commit()
         conn.close()
