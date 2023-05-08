@@ -74,3 +74,37 @@ class DeletePasien():
         c.execute("DELETE FROM pasien WHERE id=?", (values[0],))
         conn.commit()
         conn.close()
+
+
+class Readata():
+    def __init__(self, table):
+        super().__init__()
+        # membuat koneksi ke database
+        conn = sqlite3.connect('pasien.db')
+        c = conn.cursor()
+
+        # Read Data
+        c.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='pasien'")
+        result = c.fetchone()
+
+        if result:
+            # tabel tersedia, lakukan operasi yang diinginkan
+            c.execute("SELECT * FROM pasien")
+            data = c.fetchall()
+
+            # membersihkan data pada tabel
+            for row in table.get_children():
+                table.delete(data)
+
+            index = 1
+            for row in data:
+                table.insert('', 'end', text=str(index), values=(
+                    row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+
+                index += 1
+            conn.close()
+
+        else:
+            # tabel tidak tersedia, tampilkan pesan kesalahan
+            print("Tabel 'pasien' tidak tersedia di dalam database.")

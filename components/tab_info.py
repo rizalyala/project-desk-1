@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-import sqlite3
 from components.input_data import DeleteData, InputDataFromFirebase, Update
+from components.querydb import Readata
 from components.search_bar import Search_name
 
 
@@ -106,36 +106,8 @@ class Detailed_patient_table(tk.Frame):
         table_pat_det = ttk.Treeview(pasien_table_tab1, columns=(
             "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9"))
 
-        # membuat koneksi ke database
-        conn = sqlite3.connect('pasien.db')
-        c = conn.cursor()
-
         # Read Data
-        c.execute(
-            "SELECT name FROM sqlite_master WHERE type='table' AND name='pasien'")
-        result = c.fetchone()
-
-        if result:
-            # tabel tersedia, lakukan operasi yang diinginkan
-            c.execute("SELECT * FROM pasien")
-            data = c.fetchall()
-
-            # membersihkan data pada tabel
-            for row in table_pat_det.get_children():
-                table_pat_det.delete(data)
-
-            index = 1
-            for row in data:
-                table_pat_det.insert('', 'end', text=str(index), values=(
-                    row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
-
-                index += 1
-            conn.close()
-
-        else:
-            # tabel tidak tersedia, tampilkan pesan kesalahan
-            print("Tabel 'pasien' tidak tersedia di dalam database.")
-
+        Readata(table_pat_det)
         DefaultTable(col_name=pat_det_columns, col_num=pat_det_col_num,
                      widths=pat_det_widths, table=table_pat_det)
         table_pat_det.grid(row=1, column=0, columnspan=5, padx=5, pady=5)
