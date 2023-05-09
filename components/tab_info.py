@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from components.input_data import DeleteData, InputDataFromFirebase, Update
+from components.input_data import DeleteData, InputDataDokter, InputDataPasien, UpdatePasien
 from components.querydb import Readata
 from components.search_bar import Search_name
 
@@ -107,7 +107,10 @@ class Detailed_patient_table(tk.Frame):
             "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9"))
 
         # Read Data
-        Readata(table_pat_det)
+
+        def readata():
+            Readata(table_pat_det, 'pasien')
+        readata()
         DefaultTable(col_name=pat_det_columns, col_num=pat_det_col_num,
                      widths=pat_det_widths, table=table_pat_det)
         table_pat_det.grid(row=1, column=0, columnspan=5, padx=5, pady=5)
@@ -117,11 +120,11 @@ class Detailed_patient_table(tk.Frame):
             pasien_table_tab1, pasien_table_tab1, table_pat_det)
 
         # Add Button
-        InputDataFromFirebase(
-            pasien_table_tab1, pat_det_fields)
+        InputDataPasien(
+            pasien_table_tab1, pat_det_fields, table_pat_det, 'Input Pasien')
 
         # Update
-        Update(pasien_table_tab1, pat_det_fields, table_pat_det)
+        UpdatePasien(pasien_table_tab1, pat_det_fields, table_pat_det)
 
         # Delete
         DeleteData(pasien_table_tab1, table_pat_det)
@@ -142,18 +145,33 @@ class Detailed_doctor_table(tk.Frame):
         doctor_frame.add(doctor_table_tab1, text="Daftar")
         doctor_frame.add(doctor_table_tab2, text="Statistik")
 
-        doc_columns = ["No.", "Nama", "Spesialis", "Status"]
-        doc_widths = [50, 200, 70, 150]
-        doc_col_num = ["#0", "col1", "col2", "col3"]
-        table2 = ttk.Treeview(doctor_table_tab1, columns=(
-            "col1", "col2", "col3"), style="my_style.Treeview")
-        table2.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-        DefaultTable(col_name=doc_columns, col_num=doc_col_num,
-                     widths=doc_widths, table=table2)
+        # Tabel
+        doc_columns = ["No.", "ID", "Nama", "Spesialis", "Status"]
+        doc_fields = ["Nama", "Spesialis", "Status"]
+        doc_widths = [50, 100, 200, 200, 70]
+        doc_col_num = ["#0", "col1", "col2", "col3", "col4"]
+        table_doc = ttk.Treeview(doctor_table_tab1, columns=(
+            "col1", "col2", "col3", "col4"), style="my_style.Treeview")
+        table_doc.grid(row=1, column=0, columnspan=5, padx=5, pady=5)
 
+        # Read Data
+        def readata():
+            Readata(table_doc, 'dokter')
+        readata()
+        DefaultTable(col_name=doc_columns, col_num=doc_col_num,
+                     widths=doc_widths, table=table_doc)
         # Search bar
         Search_name(
-            doctor_table_tab1, tableFrame=doctor_table_tab1, tables=table2)
+            doctor_table_tab1, doctor_table_tab1, table_doc)
+        # Add Button
+        InputDataDokter(
+            doctor_table_tab1, doc_fields, table_doc, "Input Dokter")
+
+        # Update
+        UpdatePasien(doctor_table_tab1, doc_fields, table_doc)
+
+        # Delete
+        DeleteData(doctor_table_tab1, table_doc)
 
 
 class Detailed_staff_table(tk.Frame):

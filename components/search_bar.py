@@ -25,7 +25,7 @@ class Search_name(tk.Frame):
         search_var = tk.StringVar()
         search_entry = ttk.Entry(
             tableFrame, textvariable=search_var, width=50)
-        search_entry.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        search_entry.grid(row=0, column=0, padx=5, pady=5, sticky="w")
 
         search_button = tk.Button(
             tableFrame, text="Cari Nama", command=search, bg="#EF5B0C", border=0, fg="white", font=("Arial", 9, "bold"), padx=10)
