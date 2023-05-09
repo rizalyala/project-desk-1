@@ -4,7 +4,6 @@ import random
 import string
 
 
-# Pasien
 class AddPasien():
     def __init__(self, fieldslist, entries):
         super().__init__()
@@ -31,10 +30,9 @@ class AddPasien():
 
         # menutup koneksi ke database
         conn.close()
-# Update
 
 
-class UpdatePasien():
+class UpdatePas():
     def __init__(self, fieldslist, entries, table):
         super().__init__()
         data = {}
@@ -56,7 +54,6 @@ class UpdatePasien():
         # menutup koneksi ke database
         conn.close()
 # =======================================================================================
-# Dokter
 
 
 class AddDokter():
@@ -87,7 +84,7 @@ class AddDokter():
         conn.close()
 
 
-class UpdateDokter():
+class UpdateDok():
     def __init__(self, fieldslist, entries, table):
         super().__init__()
         data = {}
@@ -109,7 +106,58 @@ class UpdateDokter():
         # menutup koneksi ke database
         conn.close()
 # =======================================================================================
-# Delete
+
+
+class AddStaff():
+    def __init__(self, fieldslist, entries):
+        super().__init__()
+        data = {}
+        for field in fieldslist:
+            data[field] = entries[field].get()
+            entries[field].delete(0, tkinter.END)
+
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        # membuat tabel jika belum ada
+        c.execute('''CREATE TABLE IF NOT EXISTS staff
+                    (ID TEXT, Nama TEXT, alamat TEXT, jadwal_piket TEXT, no_telp INTEGER)''')
+
+        sid = ''.join(random.choices(string.digits, k=6))
+        num = str(random.randint(1, 10000)).zfill(6)
+        id = str(sid+num)
+        # menambahkan data ke tabel
+        c.execute("INSERT INTO staff VALUES (?,?,?,?,?)",
+                  (id, data['Nama'],  data['Alamat'], data['Jadwal Piket'], data['No telp']))
+        conn.commit()
+
+        # menutup koneksi ke database
+        conn.close()
+
+
+class UpdStaff():
+    def __init__(self, fieldslist, entries, table):
+        super().__init__()
+        data = {}
+        for field in fieldslist:
+            data[field] = entries[field].get()
+            entries[field].delete(0, tkinter.END)
+
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        selected_item = table.selection()[0]
+        values = table.item(selected_item)["values"]
+        # menambahkan data ke tabel
+        c.execute("UPDATE staff SET Nama = ?,  Alamat = ?,Jadwal_piket = ?, No_Telp=? WHERE id = ?",
+                  (data['Nama'],  data['Alamat'], data['Jadwal Piket'], data['No Telp'], values[0]))
+        conn.commit()
+
+        # menutup koneksi ke database
+        conn.close()
+# =======================================================================================
 
 
 class DeletePasien():
@@ -166,6 +214,13 @@ class Readata():
                     conn.commit()
                 conn.close()
 
-        else:
-            # tabel tidak tersedia, tampilkan pesan kesalahan
-            print("Tabel 'pasien' tidak tersedia di dalam database.")
+            if db == 'staff':
+                index = 1
+                if len(data) != 0:
+                    table.delete(*table.get_children())
+                    for row in data:
+                        table.insert('', 'end', text=str(index), values=(
+                            row[0], row[1], row[2], row[3], row[4]))
+                        index += 1
+                    conn.commit()
+                conn.close()

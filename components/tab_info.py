@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from components.input_data import DeleteData, InputDataDokter, InputDataPasien, UpdatePasien
+from components.input_data import DeleteData, InputDataDokter, InputDataPasien, InputDataStaff, UpdateDokter, UpdatePasien, UpdateStaff
 from components.querydb import Readata
 from components.search_bar import Search_name
 
@@ -168,7 +168,7 @@ class Detailed_doctor_table(tk.Frame):
             doctor_table_tab1, doc_fields, table_doc, "Input Dokter")
 
         # Update
-        UpdatePasien(doctor_table_tab1, doc_fields, table_doc)
+        UpdateDokter(doctor_table_tab1, doc_fields, table_doc)
 
         # Delete
         DeleteData(doctor_table_tab1, table_doc)
@@ -198,15 +198,33 @@ class Detailed_staff_table(tk.Frame):
         staff_frame.add(staff_table_tab4, text="Driver")
         staff_frame.add(staff_table_tab5, text="Helper")
 
-        staff_columns = ["No.", "Nama", "Gender", "Spesialis", "Status"]
-        staff_widths = [40, 200, 70, 100, 50]
-        staff_col_num = ["#0", "col1", "col2", "col3", "col4"]
-        table2 = ttk.Treeview(staff_table_tab1, columns=(
-            "col1", "col2", "col3", "col4"), style="my_style.Treeview")
-        table2.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-        DefaultTable(col_name=staff_columns, col_num=staff_col_num,
-                     widths=staff_widths, table=table2)
+        staff_columns = ["No.", "ID", "Nama",
+                         "Alamat", "Jadwal Piket", "No telp"]
+        staff_fields = ["Nama",
+                        "Alamat", "Jadwal Piket", "No telp"]
+        staff_widths = [40, 100, 200, 200, 100, 150]
+        staff_col_num = ["#0", "col1", "col2",
+                         "col3", "col4", "col5", "col6"]
+        table_staff = ttk.Treeview(staff_table_tab1, columns=(
+            "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
+        table_staff.grid(row=1, column=0, columnspan=5, padx=5, pady=5)
 
+        # Read Data
+        def readata():
+            Readata(table_staff, 'staff')
+        readata()
+
+        DefaultTable(col_name=staff_columns, col_num=staff_col_num,
+                     widths=staff_widths, table=table_staff)
         # Search bar
         Search_name(
-            staff_table_tab1, tableFrame=staff_table_tab1, tables=table2)
+            staff_table_tab1, staff_table_tab1, table_staff)
+        # Add Button
+        InputDataStaff(
+            staff_table_tab1, staff_fields, table_staff, "Input Staff")
+
+        # Update
+        UpdateStaff(staff_table_tab1, staff_fields, table_staff)
+
+        # Delete
+        DeleteData(staff_table_tab1, table_staff)
