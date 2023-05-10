@@ -127,7 +127,7 @@ class Detailed_patient_table(tk.Frame):
         UpdatePasien(pasien_table_tab1, pat_det_fields, table_pat_det)
 
         # Delete
-        DeleteData(pasien_table_tab1, table_pat_det)
+        DeleteData(pasien_table_tab1, table_pat_det, 'pasien')
 
 
 class Detailed_doctor_table(tk.Frame):
@@ -146,8 +146,8 @@ class Detailed_doctor_table(tk.Frame):
         doctor_frame.add(doctor_table_tab2, text="Statistik")
 
         # Tabel
-        doc_columns = ["No.", "ID", "Nama", "Spesialis", "Status"]
-        doc_fields = ["Nama", "Spesialis", "Status"]
+        doc_columns = ["No.", "ID", "Nama", "Spesialis", "Jadwal Kerja"]
+        doc_fields = ["Nama", "Spesialis", "Jadwal Kerja"]
         doc_widths = [50, 100, 200, 200, 70]
         doc_col_num = ["#0", "col1", "col2", "col3", "col4"]
         table_doc = ttk.Treeview(doctor_table_tab1, columns=(
@@ -171,7 +171,7 @@ class Detailed_doctor_table(tk.Frame):
         UpdateDokter(doctor_table_tab1, doc_fields, table_doc)
 
         # Delete
-        DeleteData(doctor_table_tab1, table_doc)
+        DeleteData(doctor_table_tab1, table_doc, 'dokter')
 
 
 class Detailed_staff_table(tk.Frame):
@@ -184,29 +184,18 @@ class Detailed_staff_table(tk.Frame):
 
         staff_table_tab1 = tk.Frame(staff_frame, padx=10,
                                     pady=10)
-        staff_table_tab2 = tk.Frame(staff_frame, padx=10,
-                                    pady=10)
-        staff_table_tab3 = tk.Frame(staff_frame, padx=10,
-                                    pady=10)
-        staff_table_tab4 = tk.Frame(staff_frame, padx=10,
-                                    pady=10)
-        staff_table_tab5 = tk.Frame(staff_frame, padx=10,
-                                    pady=10)
-        staff_frame.add(staff_table_tab1, text="Receptionist")
-        staff_frame.add(staff_table_tab2, text="Cleaning")
-        staff_frame.add(staff_table_tab3, text="Electric Instalation")
-        staff_frame.add(staff_table_tab4, text="Driver")
-        staff_frame.add(staff_table_tab5, text="Helper")
 
-        staff_columns = ["No.", "ID", "Nama",
+        staff_frame.add(staff_table_tab1, text="Staff")
+
+        staff_columns = ["No.", "ID", "Nama", "Posisi",
                          "Alamat", "Jadwal Piket", "No telp"]
-        staff_fields = ["Nama",
+        staff_fields = ["Nama", "Posisi",
                         "Alamat", "Jadwal Piket", "No telp"]
-        staff_widths = [40, 100, 200, 200, 100, 150]
+        staff_widths = [40, 100, 200, 200, 200, 100, 100]
         staff_col_num = ["#0", "col1", "col2",
-                         "col3", "col4", "col5", "col6"]
+                         "col3", "col4", "col5", "col6", "col7"]
         table_staff = ttk.Treeview(staff_table_tab1, columns=(
-            "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
+            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
         table_staff.grid(row=1, column=0, columnspan=5, padx=5, pady=5)
 
         # Read Data
@@ -214,8 +203,8 @@ class Detailed_staff_table(tk.Frame):
             Readata(table_staff, 'staff')
         readata()
 
-        DefaultTable(col_name=staff_columns, col_num=staff_col_num,
-                     widths=staff_widths, table=table_staff)
+        DefaultTable(staff_columns, staff_col_num,
+                     table_staff, staff_widths)
         # Search bar
         Search_name(
             staff_table_tab1, staff_table_tab1, table_staff)
@@ -227,4 +216,4 @@ class Detailed_staff_table(tk.Frame):
         UpdateStaff(staff_table_tab1, staff_fields, table_staff)
 
         # Delete
-        DeleteData(staff_table_tab1, table_staff)
+        DeleteData(staff_table_tab1, table_staff, 'staff')

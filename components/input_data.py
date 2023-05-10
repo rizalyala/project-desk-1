@@ -1,6 +1,11 @@
 import tkinter as tk
-from components.querydb import AddDokter, AddPasien, AddStaff, DeletePasien, Readata, UpdStaff, UpdateDok, UpdatePas
+from tkinter import ttk
+from components.querydb import AddDokter, AddPasien, AddStaff, DeleteD, Readata, UpdStaff, UpdateDok, UpdatePas
 import tkinter.messagebox as messagebox
+
+opsi = {"Gender": ["Male", "Female"],
+        "Status": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
+        "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"]}
 
 
 class InputDataPasien(tk.Frame):
@@ -21,7 +26,12 @@ class InputDataPasien(tk.Frame):
             for i, field in enumerate(fieldslist):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                entry_ = tk.Entry(window, width=35)
+
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
 
                 entries[field] = entry_
@@ -29,6 +39,8 @@ class InputDataPasien(tk.Frame):
             def submiting_data():
                 AddPasien(fieldslist, entries)
                 Readata(table, 'pasien')
+
+                window.destroy()
 
             submit_ = tk.Button(
                 window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
@@ -100,7 +112,12 @@ class InputDataDokter(tk.Frame):
             for i, field in enumerate(fieldslist):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                entry_ = tk.Entry(window, width=35)
+
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
 
                 entries[field] = entry_
@@ -108,6 +125,8 @@ class InputDataDokter(tk.Frame):
             def submiting_data():
                 AddDokter(fieldslist, entries)
                 Readata(table, 'dokter')
+
+                window.destroy()
 
             submit_ = tk.Button(
                 window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
@@ -179,7 +198,12 @@ class InputDataStaff(tk.Frame):
             for i, field in enumerate(fieldslist):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                entry_ = tk.Entry(window, width=35)
+
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
 
                 entries[field] = entry_
@@ -187,6 +211,8 @@ class InputDataStaff(tk.Frame):
             def submiting_data():
                 AddStaff(fieldslist, entries)
                 Readata(table, 'staff')
+
+                window.destroy()
 
             submit_ = tk.Button(
                 window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
@@ -241,15 +267,15 @@ class UpdateStaff(tk.Frame):
 
 
 class DeleteData(tk.Frame):
-    def __init__(self, parent, table):
+    def __init__(self, parent, table, db):
         super().__init__()
 
         def deleted():
             confirm = messagebox.askyesno("Hapus", "Yakin ingin menghapus ?")
             if confirm:
-                DeletePasien(table)
-                Readata(table)
+                DeleteD(table, db)
                 messagebox.showinfo("", "Data terhapus")
+        Readata(table, db)
 
         input_button = tk.Button(
             parent, text="Delete", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=deleted)

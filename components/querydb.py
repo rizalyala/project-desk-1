@@ -20,9 +20,8 @@ class AddPasien():
         c.execute('''CREATE TABLE IF NOT EXISTS pasien
                     (ID TEXT, Nama TEXT, Ruangan INTEGER, Gender TEXT, Usia TEXT,Dokter TEXT, Status TEXT, Diagnosis TEXT, Tanggal TEXT)''')
 
-        sid = ''.join(random.choices(string.digits, k=6))
         num = str(random.randint(1, 10000)).zfill(6)
-        id = str(sid+num)
+        id = str("P"+num)
         # menambahkan data ke tabel
         c.execute("INSERT INTO pasien VALUES (?, ?, ?, ?,?,?,?,?,?)",
                   (id, data['Nama'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal']))
@@ -70,14 +69,13 @@ class AddDokter():
 
         # membuat tabel jika belum ada
         c.execute('''CREATE TABLE IF NOT EXISTS dokter
-                    (ID TEXT, Nama TEXT, Spesialis TEXT, Status TEXT)''')
+                    (ID TEXT, Nama TEXT, Spesialis TEXT, Jadwal_kerja TEXT)''')
 
-        sid = ''.join(random.choices(string.digits, k=6))
         num = str(random.randint(1, 10000)).zfill(6)
-        id = str(sid+num)
+        id = str("D"+num)
         # menambahkan data ke tabel
         c.execute("INSERT INTO dokter VALUES (?,?,?,?)",
-                  (id, data['Nama'], data['Spesialis'], data['Status']))
+                  (id, data['Nama'], data['Spesialis'], data['Jadwal Kerja']))
         conn.commit()
 
         # menutup koneksi ke database
@@ -99,8 +97,8 @@ class UpdateDok():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
         # menambahkan data ke tabel
-        c.execute("UPDATE dokter SET Nama = ?, Spesialis = ?, Status = ? WHERE id = ?",
-                  (data['Nama'], data['Spesialis'], data['Status'], values[0]))
+        c.execute("UPDATE dokter SET Nama = ?, Spesialis = ?, Jadwal_kerja = ? WHERE id = ?",
+                  (data['Nama'], data['Spesialis'], data['Jadwal Kerja'], values[0]))
         conn.commit()
 
         # menutup koneksi ke database
@@ -122,14 +120,13 @@ class AddStaff():
 
         # membuat tabel jika belum ada
         c.execute('''CREATE TABLE IF NOT EXISTS staff
-                    (ID TEXT, Nama TEXT, alamat TEXT, jadwal_piket TEXT, no_telp INTEGER)''')
+                    (ID TEXT, Nama TEXT,Posisi TEXT, alamat TEXT, jadwal_piket TEXT, no_telp INTEGER)''')
 
-        sid = ''.join(random.choices(string.digits, k=6))
         num = str(random.randint(1, 10000)).zfill(6)
-        id = str(sid+num)
+        id = str("S"+num)
         # menambahkan data ke tabel
-        c.execute("INSERT INTO staff VALUES (?,?,?,?,?)",
-                  (id, data['Nama'],  data['Alamat'], data['Jadwal Piket'], data['No telp']))
+        c.execute("INSERT INTO staff VALUES (?,?,?,?,?,?)",
+                  (id, data['Nama'], data['Posisi'],  data['Alamat'], data['Jadwal Piket'], data['No telp']))
         conn.commit()
 
         # menutup koneksi ke database
@@ -151,8 +148,8 @@ class UpdStaff():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
         # menambahkan data ke tabel
-        c.execute("UPDATE staff SET Nama = ?,  Alamat = ?,Jadwal_piket = ?, No_Telp=? WHERE id = ?",
-                  (data['Nama'],  data['Alamat'], data['Jadwal Piket'], data['No Telp'], values[0]))
+        c.execute("UPDATE staff SET Nama = ?,Posisi=?,  Alamat = ?,Jadwal_piket = ?, No_Telp=? WHERE id = ?",
+                  (data['Nama'], data['Posisi'],  data['Alamat'], data['Jadwal Piket'], data['No Telp'], values[0]))
         conn.commit()
 
         # menutup koneksi ke database
@@ -160,8 +157,8 @@ class UpdStaff():
 # =======================================================================================
 
 
-class DeletePasien():
-    def __init__(self, table):
+class DeleteD():
+    def __init__(self, table, db):
         super().__init__()
         # membuat koneksi ke database
         conn = sqlite3.connect('hospital.db')
@@ -170,7 +167,7 @@ class DeletePasien():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
 
-        c.execute("DELETE FROM pasien WHERE id=?", (values[0],))
+        c.execute("DELETE FROM {} WHERE id=?".format(db), (values[0],))
         conn.commit()
         conn.close()
 
