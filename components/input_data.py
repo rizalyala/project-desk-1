@@ -1,11 +1,24 @@
+import datetime
+import sqlite3
 import tkinter as tk
 from tkinter import ttk
 from components.querydb import AddDokter, AddPasien, AddStaff, DeleteD, Readata, UpdStaff, UpdateDok, UpdatePas
 import tkinter.messagebox as messagebox
 
+
+conn = sqlite3.connect("hospital.db")
+cursor = conn.cursor()
+querydoc = "SELECT Nama_dokter FROM dokter"
+result = cursor.fetchall()
+options_doc = [r[0] for r in result]
+conn.close()
+
+dates = datetime.datetime.now().strftime("%Y-%m-%d")
 opsi = {"Gender": ["Male", "Female"],
         "Status": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
-        "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"]}
+        "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"],
+        "Tanggal": dates,
+        "Dokter": options_doc}
 
 
 class InputDataPasien(tk.Frame):
@@ -30,6 +43,7 @@ class InputDataPasien(tk.Frame):
                 if field in opsi:
                     entry_ = ttk.Combobox(
                         window, values=opsi[field], width=32)
+
                 else:
                     entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
@@ -49,7 +63,7 @@ class InputDataPasien(tk.Frame):
         # Main
         input_button = tk.Button(
             parent, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
-        input_button.grid(row=0, column=2, sticky="e", padx=5, pady=5)
+        input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
 
 
 class UpdatePasien(tk.Frame):
@@ -90,7 +104,7 @@ class UpdatePasien(tk.Frame):
         # Main
         input_button = tk.Button(
             parent, text="Edit", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
-        input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
+        input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)
 # ======================================================================================
 
 
@@ -135,7 +149,7 @@ class InputDataDokter(tk.Frame):
         # Main
         input_button = tk.Button(
             parent, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
-        input_button.grid(row=0, column=2, sticky="e", padx=5, pady=5)
+        input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
 
 
 class UpdateDokter(tk.Frame):
@@ -176,7 +190,7 @@ class UpdateDokter(tk.Frame):
         # Main
         input_button = tk.Button(
             parent, text="Edit", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
-        input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
+        input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)
 # =======================================================================================
 
 
@@ -221,7 +235,7 @@ class InputDataStaff(tk.Frame):
         # Main
         input_button = tk.Button(
             parent, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
-        input_button.grid(row=0, column=2, sticky="e", padx=5, pady=5)
+        input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
 
 
 class UpdateStaff(tk.Frame):
@@ -262,7 +276,7 @@ class UpdateStaff(tk.Frame):
         # Main
         input_button = tk.Button(
             parent, text="Edit", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
-        input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
+        input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)
 # =======================================================================================
 
 
@@ -275,8 +289,7 @@ class DeleteData(tk.Frame):
             if confirm:
                 DeleteD(table, db)
                 messagebox.showinfo("", "Data terhapus")
-        Readata(table, db)
 
         input_button = tk.Button(
             parent, text="Delete", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=deleted)
-        input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)
+        input_button.grid(row=0, column=5, sticky="e", padx=5, pady=5)

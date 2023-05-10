@@ -1,7 +1,6 @@
 import sqlite3
 import tkinter
 import random
-import string
 
 
 class AddPasien():
@@ -18,13 +17,13 @@ class AddPasien():
 
         # membuat tabel jika belum ada
         c.execute('''CREATE TABLE IF NOT EXISTS pasien
-                    (ID TEXT, Nama TEXT, Ruangan INTEGER, Gender TEXT, Usia TEXT,Dokter TEXT, Status TEXT, Diagnosis TEXT, Tanggal TEXT)''')
+                    (ID TEXT, Nama_pasien TEXT, Ruangan INTEGER, Gender TEXT, Usia TEXT,Dokter TEXT, Status TEXT, Diagnosis TEXT, Tanggal TEXT)''')
 
         num = str(random.randint(1, 10000)).zfill(6)
         id = str("P"+num)
         # menambahkan data ke tabel
         c.execute("INSERT INTO pasien VALUES (?, ?, ?, ?,?,?,?,?,?)",
-                  (id, data['Nama'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal']))
+                  (id, data['Nama Pasien'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal']))
         conn.commit()
 
         # menutup koneksi ke database
@@ -46,8 +45,8 @@ class UpdatePas():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
         # menambahkan data ke tabel
-        c.execute("UPDATE pasien SET Nama = ?, Ruangan = ?, Gender = ?, Usia = ?, Dokter = ?, Status = ?, Diagnosis = ?, Tanggal =? WHERE id = ?",
-                  (data['Nama'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal'], values[0]))
+        c.execute("UPDATE pasien SET Nama_pasien = ?, Ruangan = ?, Gender = ?, Usia = ?, Dokter = ?, Status = ?, Diagnosis = ?, Tanggal =? WHERE id = ?",
+                  (data['Nama Pasien'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal'], values[0]))
         conn.commit()
 
         # menutup koneksi ke database
@@ -69,13 +68,13 @@ class AddDokter():
 
         # membuat tabel jika belum ada
         c.execute('''CREATE TABLE IF NOT EXISTS dokter
-                    (ID TEXT, Nama TEXT, Spesialis TEXT, Jadwal_kerja TEXT)''')
+                    (ID TEXT, Nama_dokter TEXT, Spesialis TEXT, Jadwal_kerja TEXT)''')
 
         num = str(random.randint(1, 10000)).zfill(6)
         id = str("D"+num)
         # menambahkan data ke tabel
         c.execute("INSERT INTO dokter VALUES (?,?,?,?)",
-                  (id, data['Nama'], data['Spesialis'], data['Jadwal Kerja']))
+                  (id, data['Nama Dokter'], data['Spesialis'], data['Jadwal Kerja']))
         conn.commit()
 
         # menutup koneksi ke database
@@ -97,8 +96,8 @@ class UpdateDok():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
         # menambahkan data ke tabel
-        c.execute("UPDATE dokter SET Nama = ?, Spesialis = ?, Jadwal_kerja = ? WHERE id = ?",
-                  (data['Nama'], data['Spesialis'], data['Jadwal Kerja'], values[0]))
+        c.execute("UPDATE dokter SET Nama_dokter = ?, Spesialis = ?, Jadwal_kerja = ? WHERE id = ?",
+                  (data['Nama Dokter'], data['Spesialis'], data['Jadwal Kerja'], values[0]))
         conn.commit()
 
         # menutup koneksi ke database
@@ -120,13 +119,13 @@ class AddStaff():
 
         # membuat tabel jika belum ada
         c.execute('''CREATE TABLE IF NOT EXISTS staff
-                    (ID TEXT, Nama TEXT,Posisi TEXT, alamat TEXT, jadwal_piket TEXT, no_telp INTEGER)''')
+                    (ID TEXT, Nama_staff TEXT,Posisi TEXT, alamat TEXT, jadwal_piket TEXT, no_telp INTEGER)''')
 
         num = str(random.randint(1, 10000)).zfill(6)
         id = str("S"+num)
         # menambahkan data ke tabel
         c.execute("INSERT INTO staff VALUES (?,?,?,?,?,?)",
-                  (id, data['Nama'], data['Posisi'],  data['Alamat'], data['Jadwal Piket'], data['No telp']))
+                  (id, data['Nama Staff'], data['Posisi'],  data['Alamat'], data['Jadwal Piket'], data['No telp']))
         conn.commit()
 
         # menutup koneksi ke database
@@ -148,8 +147,8 @@ class UpdStaff():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
         # menambahkan data ke tabel
-        c.execute("UPDATE staff SET Nama = ?,Posisi=?,  Alamat = ?,Jadwal_piket = ?, No_Telp=? WHERE id = ?",
-                  (data['Nama'], data['Posisi'],  data['Alamat'], data['Jadwal Piket'], data['No Telp'], values[0]))
+        c.execute("UPDATE staff SET Nama_staff = ?,Posisi=?,  Alamat = ?,Jadwal_piket = ?, No_Telp=? WHERE id = ?",
+                  (data['Nama Staff'], data['Posisi'],  data['Alamat'], data['Jadwal Piket'], data['No Telp'], values[0]))
         conn.commit()
 
         # menutup koneksi ke database
@@ -167,8 +166,9 @@ class DeleteD():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
 
-        c.execute("DELETE FROM {} WHERE id=?".format(db), (values[0],))
+        c.execute("DELETE FROM {} WHERE ID=?".format(db), (values[0],))
         conn.commit()
+        Readata(table, db)
         conn.close()
 
 
@@ -217,7 +217,7 @@ class Readata():
                     table.delete(*table.get_children())
                     for row in data:
                         table.insert('', 'end', text=str(index), values=(
-                            row[0], row[1], row[2], row[3], row[4]))
+                            row[0], row[1], row[2], row[3], row[4], row[5]))
                         index += 1
                     conn.commit()
                 conn.close()
