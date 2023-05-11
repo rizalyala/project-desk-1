@@ -3,12 +3,12 @@ import tkinter as tk
 from pages.dokterpage import DokterPage
 from pages.helpage import Helpage
 from pages.homepage import Homepage
-from pages.obatpage import Obatpage
+from pages.medispage import Medispage
 from pages.pasienpage import PasienPage
 from pages.stafpage import StafPage
 
 root = tk.Tk()
-root.geometry('1180x700')
+root.geometry('1280x700')
 root.resizable(False, False)
 
 # membuat menu bar
@@ -67,7 +67,7 @@ def stafpage():
     stafpages.pack(fill='y', expand=True)
 
 
-def obatpage():
+def medispage():
     # menampilkan halaman 2
     dokterpages.pack_forget()
     helpages.pack_forget()  # menghapus halaman help dari tampilan
@@ -86,7 +86,7 @@ file_menu.add_command(label="Pasien", command=pasienpage)
 file_menu.add_command(label="Dokter", command=dokterpage)
 file_menu.add_command(label="Staf", command=stafpage)
 file_menu.add_separator()
-file_menu.add_command(label="Obat", command=obatpage)
+file_menu.add_command(label="Obat", command=medispage)
 
 menubar.add_cascade(label="Database", menu=file_menu)
 
@@ -99,7 +99,7 @@ helpages = Helpage(root)
 pasienpages = PasienPage(root)
 stafpages = StafPage(root)
 dokterpages = DokterPage(root)
-obatpages = Obatpage(root)
+obatpages = Medispage(root)
 
 # Default Halaman saat di buka pertama kali
 homepages.pack(fill="y", expand=True, padx=100)

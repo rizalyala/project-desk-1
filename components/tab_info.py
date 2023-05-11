@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from components.input_data import DeleteData, InputDataDokter, InputDataPasien, InputDataStaff, UpdateDokter, UpdatePasien, UpdateStaff
+from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdateStaff
 from components.querydb import Readata
 from components.search_bar import Search_name
 
@@ -95,12 +95,12 @@ class Detailed_patient_table(tk.Frame):
         patient_frame.add(pasien_table_tab2, text="Statistik")
 
         # Tabel
-        pat_det_columns = ["No.", 'ID', "Nama Pasien", "Ruangan", "Gender",
-                           "Usia", "Dokter", "Status", "Diagnosis", "Tanggal"]
-        pat_det_fields = ['Nama Pasien', 'Ruangan', "Gender",
-                          'Usia', 'Dokter', "Status", 'Diagnosis', "Tanggal"]
+        pat_det_columns = ["No.", 'ID', "Nama Pasien", "Tanggal Lahir", "Sex",
+                           "Usia", "Gol. Darah", "Status", "Pekerjaan", "Tanggal"]
+        pat_det_fields = ['Nama Pasien', 'Tanggal Lahir', "Sex",
+                          'Usia', 'Gol. Darah', "Status", "Pekerjaan",  "Tanggal"]
 
-        pat_det_widths = [50, 100, 200, 70, 50, 50, 200, 100, 100, 150]
+        pat_det_widths = [50, 100, 200, 100, 100, 50, 100, 200, 200, 100]
         pat_det_col_num = ["#0", "col1", "col2", "col3",
                            "col4", "col5", "col6", "col7", "col8", "col9"]
         table_pat_det = ttk.Treeview(pasien_table_tab1, columns=(
@@ -119,7 +119,7 @@ class Detailed_patient_table(tk.Frame):
         Search_name(
             pasien_table_tab1, pasien_table_tab1, table_pat_det)
 
-        empty_box = tk.Label(pasien_table_tab1, width=75,
+        empty_box = tk.Label(pasien_table_tab1, width=90,
                              )
         empty_box.grid(row=0, column=3, padx=5, pady=5)
         # Add Button
@@ -227,3 +227,56 @@ class Detailed_staff_table(tk.Frame):
 
         # Delete
         DeleteData(staff_table_tab1, table_staff, 'staff')
+
+
+class Detail_medis_table(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        medis_frame = ttk.Notebook(self)
+        medis_frame.grid(row=1, column=1, padx=10, pady=10)
+
+        obat_table_tab = tk.Frame(medis_frame, padx=10,
+                                  pady=10)
+        rekam_table_tab = tk.Frame(medis_frame, padx=10,
+                                   pady=10)
+
+        medis_frame.add(obat_table_tab, text="Obat")
+        medis_frame.add(rekam_table_tab, text="Rekam Medis")
+
+        # OBAT==============================================================================
+        obat_columns = ["No.", "ID", "Nama Obat", "Deskripsi",
+                        "Dosis", "Stok", "Tgl Kadaluarsa"]
+        obat_fields = ["Nama Obat", "Deskripsi",
+                       "Dosis", "Stok", "Tgl Kadaluarsa"]
+        obat_widths = [40, 100, 200, 200, 200, 100, 100]
+        obat_col_num = ["#0", "col1", "col2",
+                        "col3", "col4", "col5", "col6"]
+        table_obat = ttk.Treeview(obat_table_tab, columns=(
+            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
+        table_obat.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
+
+        # Read Data
+        def readata():
+            Readata(table_obat, 'obat')
+        readata()
+
+        empty_box = tk.Label(obat_table_tab, width=55,
+                             )
+        empty_box.grid(row=0, column=3, padx=5, pady=5)
+        DefaultTable(obat_columns, obat_col_num,
+                     table_obat, obat_widths)
+        # Search bar
+        Search_name(
+            obat_table_tab, obat_table_tab, table_obat)
+        # Add Button
+        InputDataObat(
+            obat_table_tab, obat_fields, table_obat, "Input Obat")
+
+        # Update
+        UpdateObat(obat_table_tab, obat_fields, table_obat)
+
+        # Delete
+        DeleteData(obat_table_tab, table_obat, 'obat')
+
+        # Rekam =================================================================================
