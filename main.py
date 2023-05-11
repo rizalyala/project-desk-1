@@ -86,7 +86,7 @@ file_menu.add_command(label="Pasien", command=pasienpage)
 file_menu.add_command(label="Dokter", command=dokterpage)
 file_menu.add_command(label="Staf", command=stafpage)
 file_menu.add_separator()
-file_menu.add_command(label="Obat", command=medispage)
+file_menu.add_command(label="Medis", command=medispage)
 
 menubar.add_cascade(label="Database", menu=file_menu)
 

@@ -242,7 +242,7 @@ class Detail_medis_table(tk.Frame):
                                    pady=10)
 
         medis_frame.add(obat_table_tab, text="Obat")
-        medis_frame.add(rekam_table_tab, text="Rekam Medis")
+        medis_frame.add(rekam_table_tab, text="Perawatan")
 
         # OBAT==============================================================================
         obat_columns = ["No.", "ID", "Nama Obat", "Deskripsi",
