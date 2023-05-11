@@ -238,11 +238,8 @@ class Detail_medis_table(tk.Frame):
 
         obat_table_tab = tk.Frame(medis_frame, padx=10,
                                   pady=10)
-        rekam_table_tab = tk.Frame(medis_frame, padx=10,
-                                   pady=10)
 
         medis_frame.add(obat_table_tab, text="Obat")
-        medis_frame.add(rekam_table_tab, text="Perawatan")
 
         # OBAT==============================================================================
         obat_columns = ["No.", "ID", "Nama Obat", "Deskripsi",
@@ -280,3 +277,40 @@ class Detail_medis_table(tk.Frame):
         DeleteData(obat_table_tab, table_obat, 'obat')
 
         # Rekam =================================================================================
+        rekam_table_tab = tk.Frame(medis_frame, padx=10,
+                                   pady=10)
+        medis_frame.add(rekam_table_tab, text="Rekam Medis")
+
+        rekam_columns = ["No.", "ID", "Nama Pasien", "Dokter",
+                         "Perawatan", "Hasil Tes", "Resep Obat", "Keterangan"]
+        rekam_fields = ["Nama Pasien", "Dokter",
+                        "Perawatan", "Hasil Tes", "Resep Obat", "Keterangan"]
+        rekam_widths = [40, 100, 200, 200, 100, 100, 100, 200]
+        rekam_col_num = ["#0", "col1", "col2",
+                         "col3", "col4", "col5", "col6", "col7"]
+        table_rekam = ttk.Treeview(rekam_table_tab, columns=(
+            "col1", "col2", "col3", "col4", "col5", "col6", "col7"), style="my_style.Treeview")
+        table_rekam.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
+
+        # Read Data
+        def readata():
+            Readata(table_rekam, 'rekam_medis')
+        readata()
+
+        empty_box = tk.Label(rekam_table_tab, width=55,
+                             )
+        empty_box.grid(row=0, column=3, padx=5, pady=5)
+        DefaultTable(rekam_columns, rekam_col_num,
+                     table_rekam, rekam_widths)
+        # Search bar
+        Search_name(
+            rekam_table_tab, rekam_table_tab, table_rekam)
+        # Add Button
+        InputDataObat(
+            rekam_table_tab, rekam_fields, table_rekam, "Input Rekam Medis")
+
+        # Update
+        UpdateObat(rekam_table_tab, rekam_fields, table_rekam)
+
+        # Delete
+        DeleteData(rekam_table_tab, table_rekam, 'rekam_medis')

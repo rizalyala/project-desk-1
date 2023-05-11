@@ -207,6 +207,57 @@ class UpdObat():
 # =======================================================================================
 
 
+class AddRekam():
+    def __init__(self, fieldslist, entries):
+        super().__init__()
+        data = {}
+        for field in fieldslist:
+            data[field] = entries[field].get()
+            entries[field].delete(0, tkinter.END)
+
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        # membuat tabel jika belum ada
+        c.execute('''CREATE TABLE IF NOT EXISTS rekam_medis
+                    (ID TEXT, Nama_pasien TEXT,Dokter TEXT, Perawatan TEXT, Hasil_tes TEXT, Resep_obat Text, Keterangan TEXT)''')
+
+        num = str(random.randint(1, 10000)).zfill(6)
+        id = str("S"+num)
+        # menambahkan data ke tabel
+        c.execute("INSERT INTO rekam_medis VALUES (?,?,?,?,?,?,?)",
+                  (id, data['Nama Pasien'], data['Dokter'],  data['Perawatan'], data['Hasil Tes'], data['Resep Obat'], data['Keterangan']))
+        conn.commit()
+
+        # menutup koneksi ke database
+        conn.close()
+
+
+class UpdRekam():
+    def __init__(self, fieldslist, entries, table):
+        super().__init__()
+        data = {}
+        for field in fieldslist:
+            data[field] = entries[field].get()
+            entries[field].delete(0, tkinter.END)
+
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        selected_item = table.selection()[0]
+        values = table.item(selected_item)["values"]
+        # menambahkan data ke tabel
+        c.execute("UPDATE rekam_medis SET Nama_pasien = ?,Dokter=?,  Perawatan = ?,Hasil_tes=?, Resep_obat=?,Keterangan=? WHERE id = ?",
+                  (data['Nama Pasien'], data['Dokter'],  data['Perawatan'], data['Hasil Tes'], data['Resep Obat'], data['Keterangan'], values[0]))
+        conn.commit()
+
+        # menutup koneksi ke database
+        conn.close()
+# =======================================================================================
+
+
 class DeleteD():
     def __init__(self, table, db):
         super().__init__()
