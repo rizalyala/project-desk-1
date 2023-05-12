@@ -96,15 +96,15 @@ class Detailed_patient_table(tk.Frame):
 
         # Tabel
         pat_det_columns = ["No.", 'ID', "Nama Pasien", "Tanggal Lahir", "Sex",
-                           "Usia", "Gol. Darah", "Status", "Pekerjaan", "Tanggal"]
+                           "Usia", "Gol. Darah", "Status", "Pekerjaan", "Diagnosa Awal", "Tanggal"]
         pat_det_fields = ['Nama Pasien', 'Tanggal Lahir', "Sex",
                           'Usia', 'Gol. Darah', "Status", "Pekerjaan", "Diagnosa Awal",  "Tanggal"]
 
-        pat_det_widths = [50, 100, 200, 100, 100, 50, 100, 200, 200, 100]
+        pat_det_widths = [30, 60, 200, 100, 70, 40, 70, 100, 100, 150, 100]
         pat_det_col_num = ["#0", "col1", "col2", "col3",
-                           "col4", "col5", "col6", "col7", "col8", "col9"]
+                           "col4", "col5", "col6", "col7", "col8", "col9", "col10"]
         table_pat_det = ttk.Treeview(pasien_table_tab1, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9"))
+            "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9", "col10"))
 
         # Read Data
 
@@ -119,7 +119,7 @@ class Detailed_patient_table(tk.Frame):
         Search_name(
             pasien_table_tab1, pasien_table_tab1, table_pat_det)
 
-        empty_box = tk.Label(pasien_table_tab1, width=90,
+        empty_box = tk.Label(pasien_table_tab1, width=63,
                              )
         empty_box.grid(row=0, column=3, padx=5, pady=5)
         # Add Button
