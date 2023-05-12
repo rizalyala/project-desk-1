@@ -119,7 +119,7 @@ class Detailed_patient_table(tk.Frame):
         Search_name(
             pasien_table_tab1, pasien_table_tab1, table_pat_det)
 
-        empty_box = tk.Label(pasien_table_tab1, width=63,
+        empty_box = tk.Label(pasien_table_tab1, width=65,
                              )
         empty_box.grid(row=0, column=3, padx=5, pady=5)
         # Add Button

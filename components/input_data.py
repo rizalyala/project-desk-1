@@ -5,23 +5,23 @@ from tkinter import ttk
 from components.querydb import AddDokter, AddObat, AddPasien, AddRekam, AddStaff, DeleteD, Readata, UpdObat, UpdRekam, UpdStaff, UpdateDok, UpdatePas
 import tkinter.messagebox as messagebox
 
-# # Dropdown PK reference
-# conn = sqlite3.connect("hospital.db")
-# cursor = conn.cursor()
+# Dropdown PK reference
+conn = sqlite3.connect("hospital.db")
+cursor = conn.cursor()
 
-# # Dokter
-# querydoc = "SELECT Nama_dokter FROM dokter"
-# cursor.execute(querydoc)
-# result = cursor.fetchall()
-# options_doc = [r[0] for r in result]
+# Dokter
+querydoc = "SELECT Nama_dokter FROM dokter"
+cursor.execute(querydoc)
+result = cursor.fetchall()
+options_doc = [r[0] for r in result]
 
 
-# # Nama Pasien
-# querypas = "SELECT Nama_pasien FROM pasien"
-# cursor.execute(querypas)
-# result = cursor.fetchall()
-# options_pas = [r[0] for r in result]
-# conn.close()
+# Nama Pasien
+querypas = "SELECT Nama_pasien FROM pasien"
+cursor.execute(querypas)
+result = cursor.fetchall()
+options_pas = [r[0] for r in result]
+conn.close()
 
 dates = datetime.datetime.now().strftime("%Y-%m-%d")
 opsi = {"Sex": ["Male", "Female"],
@@ -31,8 +31,8 @@ opsi = {"Sex": ["Male", "Female"],
         "Perawatan": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
         "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"],
         "Tanggal": dates,
-        # "Dokter": options_doc,
-        # "Nama Pasien": options_pas
+        "Dokter": options_doc,
+        "Nama Pasien": options_pas
         }
 # ======================================================================================
 
