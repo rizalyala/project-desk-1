@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdateStaff
+from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataRekam, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdateRekam, UpdateStaff
 from components.querydb import Readata
 from components.search_bar import Search_name
 
@@ -98,7 +98,7 @@ class Detailed_patient_table(tk.Frame):
         pat_det_columns = ["No.", 'ID', "Nama Pasien", "Tanggal Lahir", "Sex",
                            "Usia", "Gol. Darah", "Status", "Pekerjaan", "Tanggal"]
         pat_det_fields = ['Nama Pasien', 'Tanggal Lahir', "Sex",
-                          'Usia', 'Gol. Darah', "Status", "Pekerjaan",  "Tanggal"]
+                          'Usia', 'Gol. Darah', "Status", "Pekerjaan", "Diagnosa Awal",  "Tanggal"]
 
         pat_det_widths = [50, 100, 200, 100, 100, 50, 100, 200, 200, 100]
         pat_det_col_num = ["#0", "col1", "col2", "col3",
@@ -282,9 +282,9 @@ class Detail_medis_table(tk.Frame):
         medis_frame.add(rekam_table_tab, text="Rekam Medis")
 
         rekam_columns = ["No.", "ID", "Nama Pasien", "Dokter",
-                         "Perawatan", "Hasil Tes", "Resep Obat", "Keterangan"]
+                         "Perawatan", "Diagnosa Utama", "Resep Obat", "Tgl Keluar"]
         rekam_fields = ["Nama Pasien", "Dokter",
-                        "Perawatan", "Hasil Tes", "Resep Obat", "Keterangan"]
+                        "Perawatan", "Diagnosa Utama", "Resep Obat", "Tgl Keluar"]
         rekam_widths = [40, 100, 200, 200, 100, 100, 100, 200]
         rekam_col_num = ["#0", "col1", "col2",
                          "col3", "col4", "col5", "col6", "col7"]
@@ -306,11 +306,11 @@ class Detail_medis_table(tk.Frame):
         Search_name(
             rekam_table_tab, rekam_table_tab, table_rekam)
         # Add Button
-        InputDataObat(
+        InputDataRekam(
             rekam_table_tab, rekam_fields, table_rekam, "Input Rekam Medis")
 
         # Update
-        UpdateObat(rekam_table_tab, rekam_fields, table_rekam)
+        UpdateRekam(rekam_table_tab, rekam_fields, table_rekam)
 
         # Delete
         DeleteData(rekam_table_tab, table_rekam, 'rekam_medis')

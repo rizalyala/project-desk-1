@@ -17,13 +17,13 @@ class AddPasien():
 
         # membuat tabel jika belum ada
         c.execute('''CREATE TABLE IF NOT EXISTS pasien
-                    (ID_pasien TEXT, Nama_pasien TEXT, tgl_lahir INTEGER, Sex TEXT, Usia TEXT,Gol_darah TEXT,Status TEXT,Pekerjaan TEXT,  Tanggal TEXT)''')
+                    (ID_pasien TEXT, Nama_pasien TEXT, tgl_lahir INTEGER, Sex TEXT, Usia TEXT,Gol_darah TEXT,Status TEXT,Pekerjaan TEXT,Diag_awal Text,  Tanggal TEXT)''')
 
         num = str(random.randint(1, 10000)).zfill(6)
         id = str("P"+num)
         # menambahkan data ke tabel
-        c.execute("INSERT INTO pasien VALUES (?, ?, ?, ?,?,?,?,?,?)",
-                  (id, data['Nama Pasien'], data['Tanggal Lahir'], data['Sex'], data['Usia'], data['Gol. Darah'], data['Status'], data['Pekerjaan'],  data['Tanggal']))
+        c.execute("INSERT INTO pasien VALUES (?, ?, ?, ?,?,?,?,?,?,?)",
+                  (id, data['Nama Pasien'], data['Tanggal Lahir'], data['Sex'], data['Usia'], data['Gol. Darah'], data['Status'], data['Pekerjaan'], data['Diagnosa Awal'],  data['Tanggal']))
         conn.commit()
 
         # menutup koneksi ke database
@@ -45,8 +45,8 @@ class UpdatePas():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
         # menambahkan data ke tabel
-        c.execute("UPDATE pasien SET Nama_pasien = ?, Ruangan = ?, Gender = ?, Usia = ?, Dokter = ?, Status = ?, Diagnosis = ?, Tanggal =? WHERE id = ?",
-                  (data['Nama Pasien'], data['Ruangan'], data['Gender'], data['Usia'], data['Dokter'], data['Status'], data['Diagnosis'], data['Tanggal'], values[0]))
+        c.execute("UPDATE pasien SET Nama_pasien = ?, tgl_lahir = ?, Sex = ?, Usia = ?, Gol_darah = ?, Status = ?, Pekerjaan = ?, Diag_awal=?,Tanggal =? WHERE id = ?",
+                  (data['Nama Pasien'], data['Tanggal Lahir'], data['Sex'], data['Usia'], data['Gol. Darah'], data['Status'], data['Pekerjaan'], data['Diagnosa Awal'], data['Tanggal'], values[0]))
         conn.commit()
 
         # menutup koneksi ke database
@@ -221,13 +221,13 @@ class AddRekam():
 
         # membuat tabel jika belum ada
         c.execute('''CREATE TABLE IF NOT EXISTS rekam_medis
-                    (ID TEXT, Nama_pasien TEXT,Dokter TEXT, Perawatan TEXT, Hasil_tes TEXT, Resep_obat Text, Keterangan TEXT)''')
+                    (ID TEXT, Nama_pasien TEXT,Dokter TEXT, Perawatan TEXT, Diag_utama TEXT, Resep_obat Text, tgl_keluar TEXT)''')
 
         num = str(random.randint(1, 10000)).zfill(6)
         id = str("S"+num)
         # menambahkan data ke tabel
         c.execute("INSERT INTO rekam_medis VALUES (?,?,?,?,?,?,?)",
-                  (id, data['Nama Pasien'], data['Dokter'],  data['Perawatan'], data['Hasil Tes'], data['Resep Obat'], data['Keterangan']))
+                  (id, data['Nama Pasien'], data['Dokter'],  data['Perawatan'], data['Diagnosa Utama'], data['Resep Obat'], data['Tgl Keluar']))
         conn.commit()
 
         # menutup koneksi ke database
@@ -249,8 +249,8 @@ class UpdRekam():
         selected_item = table.selection()[0]
         values = table.item(selected_item)["values"]
         # menambahkan data ke tabel
-        c.execute("UPDATE rekam_medis SET Nama_pasien = ?,Dokter=?,  Perawatan = ?,Hasil_tes=?, Resep_obat=?,Keterangan=? WHERE id = ?",
-                  (data['Nama Pasien'], data['Dokter'],  data['Perawatan'], data['Hasil Tes'], data['Resep Obat'], data['Keterangan'], values[0]))
+        c.execute("UPDATE rekam_medis SET Nama_pasien = ?,Dokter=?,  Perawatan = ?,Diag_utama=?, Resep_obat=?,tgl_keluar=? WHERE id = ?",
+                  (data['Nama Pasien'], data['Dokter'],  data['Perawatan'], data['Diagnosa Utama'], data['Resep Obat'], data['Tgl Keluar'], values[0]))
         conn.commit()
 
         # menutup koneksi ke database
@@ -297,7 +297,7 @@ class Readata():
                     table.delete(*table.get_children())
                     for row in data:
                         table.insert('', 'end', text=str(index), values=(
-                            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+                            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
                         index += 1
                     conn.commit()
                 conn.close()
