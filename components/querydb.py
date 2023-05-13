@@ -334,3 +334,14 @@ class Readata():
                         index += 1
                     conn.commit()
                 conn.close()
+
+            if db == 'rekam_medis':
+                index = 1
+                if len(data) != 0:
+                    table.delete(*table.get_children())
+                    for row in data:
+                        table.insert('', 'end', text=str(index), values=(
+                            row[0], row[1], row[2], row[3], row[4], row[5]))
+                        index += 1
+                    conn.commit()
+                conn.close()
