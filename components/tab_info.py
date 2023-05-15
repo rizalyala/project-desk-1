@@ -314,3 +314,42 @@ class Detail_medis_table(tk.Frame):
 
         # Delete
         DeleteData(rekam_table_tab, table_rekam, 'rekam_medis')
+
+        # Perawatan ============================================================================
+        perawatan_table_tab = tk.Frame(medis_frame, padx=10,
+                                       pady=10)
+        medis_frame.add(perawatan_table_tab, text="Perawatan Medis")
+
+        perawatan_columns = ["No.", "ID", "Nama Pasien",
+                             "P1", "P2", "P3", "Diagnosa Utama"]
+        perawatan_fields = ["Nama Pasien",
+                            "P1", "P2", "P3", "Diagnosa Utama"]
+        perawatan_widths = [40, 100, 200, 200, 100, 100, 100, 200]
+        perawatan_col_num = ["#0", "col1", "col2",
+                             "col3", "col4", "col5", "col6"]
+        table_perawatan = ttk.Treeview(perawatan_table_tab, columns=(
+            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
+        table_perawatan.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
+
+        # Read Data
+        def readata():
+            Readata(table_perawatan, 'perawatan_medis')
+        readata()
+
+        empty_box = tk.Label(perawatan_table_tab, width=40,
+                             )
+        empty_box.grid(row=0, column=3, padx=5, pady=5)
+        DefaultTable(perawatan_columns, perawatan_col_num,
+                     table_perawatan, perawatan_widths)
+        # Search bar
+        Search_name(
+            perawatan_table_tab, perawatan_table_tab, table_perawatan)
+        # Add Button
+        InputDataRekam(
+            perawatan_table_tab, perawatan_fields, table_perawatan, "Input Perawatan Medis")
+
+        # Update
+        UpdateRekam(perawatan_table_tab, perawatan_fields, table_perawatan)
+
+        # Delete
+        DeleteData(perawatan_table_tab, table_perawatan, 'perawatan_medis')

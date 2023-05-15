@@ -341,7 +341,7 @@ class Readata():
                     table.delete(*table.get_children())
                     for row in data:
                         table.insert('', 'end', text=str(index), values=(
-                            row[0], row[1], row[2], row[3], row[4], row[5]))
+                            row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
                         index += 1
                     conn.commit()
                 conn.close()

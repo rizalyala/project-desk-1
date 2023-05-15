@@ -5,22 +5,24 @@ from tkinter import ttk
 from components.querydb import AddDokter, AddObat, AddPasien, AddRekam, AddStaff, DeleteD, Readata, UpdObat, UpdRekam, UpdStaff, UpdateDok, UpdatePas
 import tkinter.messagebox as messagebox
 
-# Dropdown PK reference
+# Dropdown PK reference ==============================================================================
 conn = sqlite3.connect("hospital.db")
 cursor = conn.cursor()
 
 # Dokter
 querydoc = "SELECT Nama_dokter FROM dokter"
-cursor.execute(querydoc)
-result = cursor.fetchall()
-options_doc = [r[0] for r in result]
+if querydoc == querydoc:
+    cursor.execute(querydoc)
+    result = cursor.fetchall()
+    options_doc = [r[0] for r in result]
 
 
 # Nama Pasien
 querypas = "SELECT Nama_pasien FROM pasien"
-cursor.execute(querypas)
-result = cursor.fetchall()
-options_pas = [r[0] for r in result]
+if querypas == querypas:
+    cursor.execute(querypas)
+    result = cursor.fetchall()
+    options_pas = [r[0] for r in result]
 conn.close()
 
 dates = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -103,7 +105,13 @@ class UpdatePasien(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                entry_ = tk.Entry(window, width=35)
+
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+
+                else:
+                    entry_ = tk.Entry(window, width=35)
                 entry_.insert(0, values[i])
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
 
@@ -189,9 +197,14 @@ class UpdateDokter(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                entry_ = tk.Entry(window, width=35)
-                entry_.insert(0, values[i])
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
+
+                entry_.insert(0, values[i])
 
                 entries[field] = entry_
 
@@ -275,7 +288,13 @@ class UpdateStaff(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                entry_ = tk.Entry(window, width=35)
+
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
+
                 entry_.insert(0, values[i])
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
 
@@ -360,7 +379,13 @@ class UpdateObat(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                entry_ = tk.Entry(window, width=35)
+
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
+
                 entry_.insert(0, values[i])
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
 
@@ -445,7 +470,12 @@ class UpdateRekam(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                entry_ = tk.Entry(window, width=35)
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
+
                 entry_.insert(0, values[i])
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
 
