@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataRekam, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdateRekam, UpdateStaff
+from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataPerawatan, InputDataRekam, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdatePerawatan, UpdateRekam, UpdateStaff
 from components.querydb import Readata
 from components.search_bar import Search_name
 
@@ -324,7 +324,7 @@ class Detail_medis_table(tk.Frame):
                              "P1", "P2", "P3", "Diagnosa Utama"]
         perawatan_fields = ["Nama Pasien",
                             "P1", "P2", "P3", "Diagnosa Utama"]
-        perawatan_widths = [40, 100, 200, 200, 100, 100, 100, 200]
+        perawatan_widths = [40, 100, 200, 100, 100, 100, 100, 200]
         perawatan_col_num = ["#0", "col1", "col2",
                              "col3", "col4", "col5", "col6"]
         table_perawatan = ttk.Treeview(perawatan_table_tab, columns=(
@@ -336,7 +336,7 @@ class Detail_medis_table(tk.Frame):
             Readata(table_perawatan, 'perawatan_medis')
         readata()
 
-        empty_box = tk.Label(perawatan_table_tab, width=40,
+        empty_box = tk.Label(perawatan_table_tab, width=25,
                              )
         empty_box.grid(row=0, column=3, padx=5, pady=5)
         DefaultTable(perawatan_columns, perawatan_col_num,
@@ -345,11 +345,11 @@ class Detail_medis_table(tk.Frame):
         Search_name(
             perawatan_table_tab, perawatan_table_tab, table_perawatan)
         # Add Button
-        InputDataRekam(
+        InputDataPerawatan(
             perawatan_table_tab, perawatan_fields, table_perawatan, "Input Perawatan Medis")
 
         # Update
-        UpdateRekam(perawatan_table_tab, perawatan_fields, table_perawatan)
+        UpdatePerawatan(perawatan_table_tab, perawatan_fields, table_perawatan)
 
         # Delete
         DeleteData(perawatan_table_tab, table_perawatan, 'perawatan_medis')
