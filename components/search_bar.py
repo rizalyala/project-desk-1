@@ -12,7 +12,7 @@ class Search_name(tk.Frame):
             if keyword:
                 found = False
                 for row in tables.get_children():
-                    if keyword.lower() in tables.item(row)['values'][0].lower():
+                    if keyword.lower() in tables.item(row)['values'][1].lower():
                         tables.selection_set(row)
                         found = True
                     else:

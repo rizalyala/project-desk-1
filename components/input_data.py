@@ -23,6 +23,22 @@ if querypas == querypas:
     cursor.execute(querypas)
     result = cursor.fetchall()
     options_pas = [r[0] for r in result]
+
+
+# Perawatan
+queryper = "SELECT ID FROM perawatan_medis"
+if queryper == queryper:
+    cursor.execute(queryper)
+    result = cursor.fetchall()
+    options_per = [r[0] for r in result]
+
+
+# Obat
+queryob = "SELECT Nama_Obat FROM obat"
+if queryob == queryob:
+    cursor.execute(queryob)
+    result = cursor.fetchall()
+    options_ob = [r[0] for r in result]
 conn.close()
 
 dates = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -34,6 +50,11 @@ opsi = {"Sex": ["Male", "Female"],
         "P2": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
         "P3": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
         "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"],
+        "Obat1": options_ob,
+        "Obat2": options_ob,
+        "Obat3": options_ob,
+        "Obat4": options_ob,
+        "Perawatan": options_per,
         "Tanggal": dates,
         "Dokter": options_doc,
         "Nama Pasien": options_pas
@@ -585,6 +606,97 @@ class UpdatePerawatan(tk.Frame):
         input_button = tk.Button(
             parent, text="Edit", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
         input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)
+# =======================================================================================
+
+
+class InputDataResep(tk.Frame):
+    def __init__(self, parent, fieldslist, table, label):
+        super().__init__(parent)
+
+        def input_window():
+            window = tk.Toplevel()
+
+            window.geometry("400x600")
+            window.resizable(False, False)
+
+            label_ = tk.Label(window, text=label)
+            label_.grid(row=0, column=1, columnspan=2)
+
+            entries = {}
+            for i, field in enumerate(fieldslist):
+                entry_label = tk.Label(window, text=field + " : ")
+                entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
+
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
+                entry_.grid(row=i+1, column=1, padx=10, pady=10)
+
+                entries[field] = entry_
+
+            def submiting_data():
+                AddPerawatan(fieldslist, entries)
+                Readata(table, 'resep_obat')
+
+                window.destroy()
+
+            submit_ = tk.Button(
+                window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
+            submit_.grid(row=10, column=1, columnspan=2)
+
+        # Main
+        input_button = tk.Button(
+            parent, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
+        input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
+
+
+class UpdateResep(tk.Frame):
+    def __init__(self, parent, fieldslist, table):
+        super().__init__(parent)
+
+        # Window
+        def input_window():
+            selected_item = table.selection()[0]
+            values = table.item(selected_item)["values"]
+
+            window = tk.Toplevel()
+
+            window.geometry("400x600")
+            window.resizable(False, False)
+
+            label_ = tk.Label(window, text="Input Resep bat")
+            label_.grid(row=0, column=1, columnspan=2)
+
+            entries = {}
+            for i, field in enumerate(fieldslist, start=1):
+                entry_label = tk.Label(window, text=field + " : ")
+                entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
+                if field in opsi:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
+
+                entry_.insert(0, values[i])
+                entry_.grid(row=i+1, column=1, padx=10, pady=10)
+
+                entries[field] = entry_
+
+            def submiting_data():
+                UpdPerawatan(fieldslist, entries, table)
+                Readata(table, 'resep_obat')
+
+            submit_ = tk.Button(
+                window, text="Update", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
+            submit_.grid(row=10, column=1, columnspan=2)
+
+        # Main
+        input_button = tk.Button(
+            parent, text="Edit", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
+        input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)
+
 # =======================================================================================
 
 

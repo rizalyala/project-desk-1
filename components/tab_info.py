@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataPerawatan, InputDataRekam, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdatePerawatan, UpdateRekam, UpdateStaff
+from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataPerawatan, InputDataRekam, InputDataResep, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdatePerawatan, UpdateRekam, UpdateResep, UpdateStaff
 from components.querydb import Readata
 from components.search_bar import Search_name
 
@@ -236,46 +236,6 @@ class Detail_medis_table(tk.Frame):
         medis_frame = ttk.Notebook(self)
         medis_frame.grid(row=1, column=1, padx=10, pady=10)
 
-        obat_table_tab = tk.Frame(medis_frame, padx=10,
-                                  pady=10)
-
-        medis_frame.add(obat_table_tab, text="Obat")
-
-        # OBAT==============================================================================
-        obat_columns = ["No.", "ID", "Nama Obat", "Deskripsi",
-                        "Dosis", "Stok", "Tgl Kadaluarsa"]
-        obat_fields = ["Nama Obat", "Deskripsi",
-                       "Dosis", "Stok", "Tgl Kadaluarsa"]
-        obat_widths = [40, 100, 200, 200, 200, 100, 100]
-        obat_col_num = ["#0", "col1", "col2",
-                        "col3", "col4", "col5", "col6"]
-        table_obat = ttk.Treeview(obat_table_tab, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
-        table_obat.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
-
-        # Read Data
-        def readata():
-            Readata(table_obat, 'obat')
-        readata()
-
-        empty_box = tk.Label(obat_table_tab, width=55,
-                             )
-        empty_box.grid(row=0, column=3, padx=5, pady=5)
-        DefaultTable(obat_columns, obat_col_num,
-                     table_obat, obat_widths)
-        # Search bar
-        Search_name(
-            obat_table_tab, obat_table_tab, table_obat)
-        # Add Button
-        InputDataObat(
-            obat_table_tab, obat_fields, table_obat, "Input Obat")
-
-        # Update
-        UpdateObat(obat_table_tab, obat_fields, table_obat)
-
-        # Delete
-        DeleteData(obat_table_tab, table_obat, 'obat')
-
         # Rekam =================================================================================
         rekam_table_tab = tk.Frame(medis_frame, padx=10,
                                    pady=10)
@@ -353,3 +313,90 @@ class Detail_medis_table(tk.Frame):
 
         # Delete
         DeleteData(perawatan_table_tab, table_perawatan, 'perawatan_medis')
+
+
+class Detail_lab_table(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        lab_frame = ttk.Notebook(self)
+        lab_frame.grid(row=1, column=1, padx=10, pady=10)
+
+        # OBAT==============================================================================
+        obat_table_tab = tk.Frame(lab_frame, padx=10,
+                                  pady=10)
+
+        lab_frame.add(obat_table_tab, text="Obat")
+        obat_columns = ["No.", "ID", "Nama Obat", "Deskripsi",
+                        "Dosis", "Stok", "Tgl Kadaluarsa"]
+        obat_fields = ["Nama Obat", "Deskripsi",
+                       "Dosis", "Stok", "Tgl Kadaluarsa"]
+        obat_widths = [40, 100, 200, 200, 200, 100, 100]
+        obat_col_num = ["#0", "col1", "col2",
+                        "col3", "col4", "col5", "col6"]
+        table_obat = ttk.Treeview(obat_table_tab, columns=(
+            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
+        table_obat.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
+
+        # Read Data
+        def readata():
+            Readata(table_obat, 'obat')
+        readata()
+
+        empty_box = tk.Label(obat_table_tab, width=55,
+                             )
+        empty_box.grid(row=0, column=3, padx=5, pady=5)
+        DefaultTable(obat_columns, obat_col_num,
+                     table_obat, obat_widths)
+        # Search bar
+        Search_name(
+            obat_table_tab, obat_table_tab, table_obat)
+        # Add Button
+        InputDataObat(
+            obat_table_tab, obat_fields, table_obat, "Input Obat")
+
+        # Update
+        UpdateObat(obat_table_tab, obat_fields, table_obat)
+
+        # Delete
+        DeleteData(obat_table_tab, table_obat, 'obat')
+
+        # Resep Obat =======================================================================================
+
+        resep_table_tab = tk.Frame(lab_frame, padx=10,
+                                   pady=10)
+
+        lab_frame.add(resep_table_tab, text="Resep Obat")
+        resep_columns = ["No.", "ID", "Nama Pasien", "Obat1",
+                         "Obat2", "Obat3", "Obat4"]
+        resep_fields = ["Nama Pasien", "Obat1",
+                        "Obat2", "Obat3", "Obat4"]
+        resep_widths = [40, 100, 200, 200, 200, 100, 100]
+        resep_col_num = ["#0", "col1", "col2",
+                         "col3", "col4", "col5", "col6"]
+        table_resep = ttk.Treeview(resep_table_tab, columns=(
+            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
+        table_resep.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
+
+        # Read Data
+        def readata():
+            Readata(table_resep, 'resep_obat')
+        readata()
+
+        empty_box = tk.Label(resep_table_tab, width=55,
+                             )
+        empty_box.grid(row=0, column=3, padx=5, pady=5)
+        DefaultTable(resep_columns, resep_col_num,
+                     table_resep, resep_widths)
+        # Search bar
+        Search_name(
+            resep_table_tab, resep_table_tab, table_resep)
+        # Add Button
+        InputDataResep(
+            resep_table_tab, resep_fields, table_resep, "Input Resep")
+
+        # Update
+        UpdateResep(resep_table_tab, resep_fields, table_resep)
+
+        # Delete
+        DeleteData(resep_table_tab, table_resep, 'resep_obat')

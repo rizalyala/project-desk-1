@@ -207,6 +207,57 @@ class UpdObat():
 # =======================================================================================
 
 
+class AddResepObat():
+    def __init__(self, fieldslist, entries):
+        super().__init__()
+        data = {}
+        for field in fieldslist:
+            data[field] = entries[field].get()
+            entries[field].delete(0, tkinter.END)
+
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        # membuat tabel jika belum ada
+        c.execute('''CREATE TABLE IF NOT EXISTS resep_obat
+                    (ID TEXT, Nama_pasien TEXT,obat1 TEXT, obat2 TEXT, obat3 TEXT, obat4 TEXT)''')
+
+        num = str(random.randint(1, 10000)).zfill(6)
+        id = str("S"+num)
+        # menambahkan data ke tabel
+        c.execute("INSERT INTO resep_obat VALUES (?,?,?,?,?,?)",
+                  (id, data['Nama Pasien'], data['Obat_1'],  data['Obat_2'], data['Obat_3'], data['Obat_4']))
+        conn.commit()
+
+        # menutup koneksi ke database
+        conn.close()
+
+
+class UpdResepObat():
+    def __init__(self, fieldslist, entries, table):
+        super().__init__()
+        data = {}
+        for field in fieldslist:
+            data[field] = entries[field].get()
+            entries[field].delete(0, tkinter.END)
+
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        selected_item = table.selection()[0]
+        values = table.item(selected_item)["values"]
+        # menambahkan data ke tabel
+        c.execute("UPDATE resep_obat SET Nama_pasien = ?,Obat1=?,  Obat2 = ?,Obat3=?, Obat4=? WHERE id = ?",
+                  (data['Nama Pasien'], data['Obat_1'],  data['Obat_2'], data['Obat_3'], data['Obat_4'], values[0]))
+        conn.commit()
+
+        # menutup koneksi ke database
+        conn.close()
+# =======================================================================================
+
+
 class AddRekam():
     def __init__(self, fieldslist, entries):
         super().__init__()
@@ -398,6 +449,17 @@ class Readata():
                 conn.close()
 
             if db == 'perawatan_medis':
+                index = 1
+                if len(data) != 0:
+                    table.delete(*table.get_children())
+                    for row in data:
+                        table.insert('', 'end', text=str(index), values=(
+                            row[0], row[1], row[2], row[3], row[4], row[5]))
+                        index += 1
+                    conn.commit()
+                conn.close()
+
+            if db == 'resep_obat':
                 index = 1
                 if len(data) != 0:
                     table.delete(*table.get_children())
