@@ -367,10 +367,10 @@ class Detail_lab_table(tk.Frame):
                                    pady=10)
 
         lab_frame.add(resep_table_tab, text="Resep Obat")
-        resep_columns = ["No.", "ID", "Nama Pasien", "Obat1",
-                         "Obat2", "Obat3", "Obat4"]
-        resep_fields = ["Nama Pasien", "Obat1",
-                        "Obat2", "Obat3", "Obat4"]
+        resep_columns = ["No.", "ID", "Nama Pasien", "Obat_1",
+                         "Obat_2", "Obat_3", "Obat_4"]
+        resep_fields = ["Nama Pasien", "Obat_1",
+                        "Obat_2", "Obat_3", "Obat_4"]
         resep_widths = [40, 100, 200, 200, 200, 100, 100]
         resep_col_num = ["#0", "col1", "col2",
                          "col3", "col4", "col5", "col6"]

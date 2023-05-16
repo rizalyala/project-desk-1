@@ -1,64 +1,29 @@
 import datetime
-import sqlite3
 import tkinter as tk
 from tkinter import ttk
-from components.querydb import AddDokter, AddObat, AddPasien, AddPerawatan, AddRekam, AddStaff, DeleteD, Readata, UpdObat, UpdPerawatan, UpdRekam, UpdStaff, UpdateDok, UpdatePas
+from components.querydb import AddDokter, AddObat, AddPasien, AddPerawatan, AddRekam, AddResepObat, AddStaff, DeleteD, Readata, UpdObat, UpdPerawatan, UpdRekam, UpdResepObat, UpdStaff, UpdateDok, UpdatePas
 import tkinter.messagebox as messagebox
 
-# Dropdown PK reference ==============================================================================
-conn = sqlite3.connect("hospital.db")
-cursor = conn.cursor()
-
-# Dokter
-querydoc = "SELECT Nama_dokter FROM dokter"
-if querydoc == querydoc:
-    cursor.execute(querydoc)
-    result = cursor.fetchall()
-    options_doc = [r[0] for r in result]
-
-
-# Nama Pasien
-querypas = "SELECT Nama_pasien FROM pasien"
-if querypas == querypas:
-    cursor.execute(querypas)
-    result = cursor.fetchall()
-    options_pas = [r[0] for r in result]
-
-
-# Perawatan
-queryper = "SELECT ID FROM perawatan_medis"
-if queryper == queryper:
-    cursor.execute(queryper)
-    result = cursor.fetchall()
-    options_per = [r[0] for r in result]
-
-
-# Obat
-queryob = "SELECT Nama_Obat FROM obat"
-if queryob == queryob:
-    cursor.execute(queryob)
-    result = cursor.fetchall()
-    options_ob = [r[0] for r in result]
-conn.close()
 
 dates = datetime.datetime.now().strftime("%Y-%m-%d")
-opsi = {"Sex": ["Male", "Female"],
-        "Status": ["Kawin", "Belum Kawin", "Janda", "Duda"],
-        "Gol. Darah": ["A", "B", "AB", "O"],
-        "Pekerjaan": ["Wirausaha", "Wiraswasta", "ASN", "TNI/POLRI", "Pelajar", "Mahasiswa/i"],
-        "P1": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
-        "P2": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
-        "P3": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
-        "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"],
-        "Obat1": options_ob,
-        "Obat2": options_ob,
-        "Obat3": options_ob,
-        "Obat4": options_ob,
-        "Perawatan": options_per,
-        "Tanggal": dates,
-        "Dokter": options_doc,
-        "Nama Pasien": options_pas
-        }
+# opsi = {"Sex": ["Male", "Female"],
+#         "Status": ["Kawin", "Belum Kawin", "Janda", "Duda"],
+#         "Gol. Darah": ["A", "B", "AB", "O"],
+#         "Pekerjaan": ["Wirausaha", "Wiraswasta", "ASN", "TNI/POLRI", "Pelajar", "Mahasiswa/i"],
+#         "P1": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
+#         "P2": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
+#         "P3": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
+#         "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"],
+#         "Resep Obat": options_res,
+#         "Obat_1": options_ob,
+#         "Obat_2": options_ob,
+#         "Obat_3": options_ob,
+#         "Obat_4": options_ob,
+#         "Perawatan": options_per,
+#         "Tanggal": dates,
+#         "Dokter": options_doc,
+#         "Nama Pasien": options_pas
+#         }
 # ======================================================================================
 
 
@@ -637,7 +602,7 @@ class InputDataResep(tk.Frame):
                 entries[field] = entry_
 
             def submiting_data():
-                AddPerawatan(fieldslist, entries)
+                AddResepObat(fieldslist, entries)
                 Readata(table, 'resep_obat')
 
                 window.destroy()
@@ -685,7 +650,7 @@ class UpdateResep(tk.Frame):
                 entries[field] = entry_
 
             def submiting_data():
-                UpdPerawatan(fieldslist, entries, table)
+                UpdResepObat(fieldslist, entries, table)
                 Readata(table, 'resep_obat')
 
             submit_ = tk.Button(
