@@ -1,30 +1,21 @@
 import datetime
+import sqlite3
 import tkinter as tk
 from tkinter import ttk
+from components.entry_ref import EntryRefDokter, EntryRefObat, EntryRefPasien, EntryRefPerawatan, EntryRefResObat
 from components.querydb import AddDokter, AddObat, AddPasien, AddPerawatan, AddRekam, AddResepObat, AddStaff, DeleteD, Readata, UpdObat, UpdPerawatan, UpdRekam, UpdResepObat, UpdStaff, UpdateDok, UpdatePas
 import tkinter.messagebox as messagebox
 
 
 dates = datetime.datetime.now().strftime("%Y-%m-%d")
-# opsi = {"Sex": ["Male", "Female"],
-#         "Status": ["Kawin", "Belum Kawin", "Janda", "Duda"],
-#         "Gol. Darah": ["A", "B", "AB", "O"],
-#         "Pekerjaan": ["Wirausaha", "Wiraswasta", "ASN", "TNI/POLRI", "Pelajar", "Mahasiswa/i"],
-#         "P1": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
-#         "P2": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
-#         "P3": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
-#         "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"],
-#         "Resep Obat": options_res,
-#         "Obat_1": options_ob,
-#         "Obat_2": options_ob,
-#         "Obat_3": options_ob,
-#         "Obat_4": options_ob,
-#         "Perawatan": options_per,
-#         "Tanggal": dates,
-#         "Dokter": options_doc,
-#         "Nama Pasien": options_pas
-#         }
+
 # ======================================================================================
+opsi_pas = {"Sex": ["Male", "Female"],
+            "Status": ["Kawin", "Belum Kawin", "Janda", "Duda"],
+            "Gol. Darah": ["A", "B", "AB", "O"],
+            "Pekerjaan": ["Wirausaha", "Wiraswasta", "ASN", "TNI/POLRI", "Pelajar", "Mahasiswa/i"],
+            "Tanggal": dates,
+            }
 
 
 class InputDataPasien(tk.Frame):
@@ -32,6 +23,7 @@ class InputDataPasien(tk.Frame):
         super().__init__(parent)
 
         # Window
+
         def input_window():
             window = tk.Toplevel()
 
@@ -46,9 +38,9 @@ class InputDataPasien(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_pas:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_pas[field], width=32)
 
                 else:
                     entry_ = tk.Entry(window, width=35)
@@ -94,9 +86,9 @@ class UpdatePasien(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_pas:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_pas[field], width=32)
 
                 else:
                     entry_ = tk.Entry(window, width=35)
@@ -120,11 +112,17 @@ class UpdatePasien(tk.Frame):
 # ======================================================================================
 
 
+opsi_doc = {
+    "Spesialis": ["Umum", "Bedah", "Internal", "Anestesi", "Radiologi", "Kandungan", "Anak", "Orthopedi", "Psikiatri"],
+}
+
+
 class InputDataDokter(tk.Frame):
     def __init__(self, parent, fieldslist, table, label):
         super().__init__(parent)
 
         # Window
+
         def input_window():
             window = tk.Toplevel()
 
@@ -139,9 +137,9 @@ class InputDataDokter(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_doc:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_doc[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
@@ -185,9 +183,9 @@ class UpdateDokter(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                if field in opsi:
+                if field in opsi_doc:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_doc[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
@@ -211,6 +209,12 @@ class UpdateDokter(tk.Frame):
 # =======================================================================================
 
 
+opsi_staff = {"Sex": ["Male", "Female"],
+              "Status": ["Kawin", "Belum Kawin", "Janda", "Duda"],
+              "Tanggal": dates
+              }
+
+
 class InputDataStaff(tk.Frame):
     def __init__(self, parent, fieldslist, table, label):
         super().__init__(parent)
@@ -230,9 +234,9 @@ class InputDataStaff(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_staff:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_staff[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
@@ -277,9 +281,9 @@ class UpdateStaff(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_staff:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_staff[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
 
@@ -303,6 +307,14 @@ class UpdateStaff(tk.Frame):
 # =======================================================================================
 
 
+opsi_ob = {
+    "Obat_1": EntryRefObat.options_ob,
+    "Obat_2": EntryRefObat.options_ob,
+    "Obat_3": EntryRefObat.options_ob,
+    "Obat_4": EntryRefObat.options_ob,
+}
+
+
 class InputDataObat(tk.Frame):
     def __init__(self, parent, fieldslist, table, label):
         super().__init__(parent)
@@ -321,9 +333,9 @@ class InputDataObat(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_ob:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_ob[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
@@ -368,9 +380,9 @@ class UpdateObat(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_ob:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_ob[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
 
@@ -394,6 +406,15 @@ class UpdateObat(tk.Frame):
 # =======================================================================================
 
 
+opsi_rekam = {
+    "Resep Obat": EntryRefResObat.options_res,
+    "Perawatan": EntryRefPerawatan.options_per,
+    "Tanggal": dates,
+    "Dokter": EntryRefDokter.options_doc,
+    "Nama Pasien": EntryRefPasien.options_pas
+}
+
+
 class InputDataRekam(tk.Frame):
     def __init__(self, parent, fieldslist, table, label):
         super().__init__(parent)
@@ -412,9 +433,9 @@ class InputDataRekam(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_rekam:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_rekam[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
@@ -458,9 +479,9 @@ class UpdateRekam(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                if field in opsi:
+                if field in opsi_rekam:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_rekam[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
 
@@ -484,6 +505,16 @@ class UpdateRekam(tk.Frame):
 # =======================================================================================
 
 
+opsi_perawatan = {
+    "P1": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
+    "P2": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
+    "P3": ["ICU", "RI", "RJ", "GD", "Operasi", "Intensif", "Paliatif", "Khusus", "Rehab"],
+    "Tanggal": dates,
+    "Dokter": EntryRefDokter.options_doc,
+    "Nama Pasien": EntryRefPasien.options_pas
+}
+
+
 class InputDataPerawatan(tk.Frame):
     def __init__(self, parent, fieldslist, table, label):
         super().__init__(parent)
@@ -502,9 +533,9 @@ class InputDataPerawatan(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_perawatan:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_perawatan[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
@@ -548,9 +579,9 @@ class UpdatePerawatan(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                if field in opsi:
+                if field in opsi_perawatan:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_perawatan[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
 
@@ -574,6 +605,17 @@ class UpdatePerawatan(tk.Frame):
 # =======================================================================================
 
 
+opsi_resep = {
+    "Obat_1": EntryRefObat.options_ob,
+    "Obat_2": EntryRefObat.options_ob,
+    "Obat_3": EntryRefObat.options_ob,
+    "Obat_4": EntryRefObat.options_ob,
+    "Tanggal": dates,
+    "Dokter": EntryRefDokter.options_doc,
+    "Nama Pasien": EntryRefPasien.options_pas
+}
+
+
 class InputDataResep(tk.Frame):
     def __init__(self, parent, fieldslist, table, label):
         super().__init__(parent)
@@ -592,9 +634,9 @@ class InputDataResep(tk.Frame):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
 
-                if field in opsi:
+                if field in opsi_resep:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_resep[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
                 entry_.grid(row=i+1, column=1, padx=10, pady=10)
@@ -638,9 +680,9 @@ class UpdateResep(tk.Frame):
             for i, field in enumerate(fieldslist, start=1):
                 entry_label = tk.Label(window, text=field + " : ")
                 entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
-                if field in opsi:
+                if field in opsi_resep:
                     entry_ = ttk.Combobox(
-                        window, values=opsi[field], width=32)
+                        window, values=opsi_resep[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
 
