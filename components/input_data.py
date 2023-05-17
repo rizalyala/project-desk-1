@@ -411,7 +411,6 @@ opsi_rekam = {
     "Perawatan": EntryRefPerawatan.options_per,
     "Tanggal": dates,
     "Dokter": EntryRefDokter.options_doc,
-    "Nama Pasien": EntryRefPasien.options_pas
 }
 
 
@@ -422,23 +421,51 @@ class InputDataRekam(tk.Frame):
         def input_window():
             window = tk.Toplevel()
 
-            window.geometry("400x600")
+            window.geometry("1000x400")
             window.resizable(False, False)
 
             label_ = tk.Label(window, text=label)
             label_.grid(row=0, column=1, columnspan=2)
 
+            def search_id(event):
+                entered_id = entry_search.get()
+                # Database
+                conn = sqlite3.connect("hospital.db")
+                cursor = conn.cursor()
+                querys = "SELECT Nama_pasien FROM pasien WHERE ID_pasien=?"
+                cursor.execute(querys, (entered_id,))
+                result = cursor.fetchone()
+                cursor.close()
+                conn.close()
+
+                if result:
+                    # Jika ditemukan, isikan Entry Nama dengan data yang sesuai
+                    # Menghapus teks yang ada di Entry Nama
+                    entry_.delete(0, tk.END)
+                    # Isi Entry Nama dengan data yang sesuai
+                    entry_.insert(0, result[0])
+                else:
+                    # Jika tidak ditemukan, kosongkan Entry Nama
+                    entry_.delete(0, tk.END)
+
+            # Search ID
+            entry_search_label = tk.Label(window, text="Search ID : ")
+            entry_search_label.grid(row=1, column=0, padx=10, pady=10)
+            entry_search = tk.Entry(window, width=35)
+            entry_search.grid(row=1, column=1, padx=10, pady=10)
+            entry_search.bind("<KeyRelease>", search_id)
+
             entries = {}
             for i, field in enumerate(fieldslist):
                 entry_label = tk.Label(window, text=field + " : ")
-                entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
+                entry_label.grid(row=i+1, column=2, sticky="w", padx=10)
 
                 if field in opsi_rekam:
                     entry_ = ttk.Combobox(
                         window, values=opsi_rekam[field], width=32)
                 else:
                     entry_ = tk.Entry(window, width=35)
-                entry_.grid(row=i+1, column=1, padx=10, pady=10)
+                entry_.grid(row=i+1, column=3, padx=10, pady=10)
 
                 entries[field] = entry_
 
@@ -450,7 +477,7 @@ class InputDataRekam(tk.Frame):
 
             submit_ = tk.Button(
                 window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
-            submit_.grid(row=10, column=1, columnspan=2)
+            submit_.grid(row=10, column=1, columnspan=3)
 
         # Main
         input_button = tk.Button(
