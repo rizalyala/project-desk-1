@@ -441,12 +441,12 @@ class InputDataRekam(tk.Frame):
                 if result:
                     # Jika ditemukan, isikan Entry Nama dengan data yang sesuai
                     # Menghapus teks yang ada di Entry Nama
-                    entry_.delete(0, tk.END)
+                    entries["Nama Pasien"].delete(0, tk.END)
                     # Isi Entry Nama dengan data yang sesuai
-                    entry_.insert(0, result[0])
+                    entries["Nama Pasien"].insert(0, result[0])
                 else:
                     # Jika tidak ditemukan, kosongkan Entry Nama
-                    entry_.delete(0, tk.END)
+                    entries["Nama Pasien"].delete(0, tk.END)
 
             # Search ID
             entry_search_label = tk.Label(window, text="Search ID : ")
