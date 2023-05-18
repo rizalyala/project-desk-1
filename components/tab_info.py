@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataPerawatan, InputDataRekam, InputDataResep, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdatePerawatan, UpdateRekam, UpdateResep, UpdateStaff
+from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataPerawatan, InputDataRekam, InputDataResep, InputDataRuangInap, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdatePerawatan, UpdateRekam, UpdateResep, UpdateRuangInap, UpdateStaff
 from components.querydb import Readata
 from components.search_bar import Search_name
 
@@ -313,6 +313,45 @@ class Detail_medis_table(tk.Frame):
 
         # Delete
         DeleteData(perawatan_table_tab, table_perawatan, 'perawatan_medis')
+
+        # Ruang Inap ===============================================================================
+        ruangi_table_tab = tk.Frame(medis_frame, padx=10,
+                                    pady=10)
+        medis_frame.add(ruangi_table_tab, text="Ruang Inap")
+
+        ruangi_columns = ["No.", "ID", "Nama Pasien",
+                          "Ruang", "Diagnosa Utama"]
+        ruangi_fields = ["Nama Pasien",
+                         "Ruang", "Diagnosa Utama"]
+        ruangi_widths = [40, 100, 200, 100, 200]
+        ruangi_col_num = ["#0", "col1", "col2",
+                          "col3", "col4", "col5"]
+        table_ruangi = ttk.Treeview(ruangi_table_tab, columns=(
+            "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
+        table_ruangi.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
+
+        # Read Data
+        def readata():
+            Readata(table_ruangi, 'ruang_inap')
+        readata()
+
+        empty_box = tk.Label(ruangi_table_tab, width=25,
+                             )
+        empty_box.grid(row=0, column=3, padx=5, pady=5)
+        DefaultTable(ruangi_columns, ruangi_col_num,
+                     table_ruangi, ruangi_widths)
+        # Search bar
+        Search_name(
+            ruangi_table_tab, ruangi_table_tab, table_ruangi)
+        # Add Button
+        InputDataRuangInap(
+            ruangi_table_tab, ruangi_fields, table_ruangi, "Input Ruang Inap")
+
+        # Update
+        UpdateRuangInap(ruangi_table_tab, ruangi_fields, table_ruangi)
+
+        # Delete
+        DeleteData(ruangi_table_tab, table_ruangi, 'ruang_inap')
 
 
 class Detail_lab_table(tk.Frame):

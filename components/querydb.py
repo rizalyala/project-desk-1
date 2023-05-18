@@ -360,6 +360,57 @@ class UpdPerawatan():
 # =======================================================================================
 
 
+class AddRuangInap():
+    def __init__(self, fieldslist, entries):
+        super().__init__()
+        data = {}
+        for field in fieldslist:
+            data[field] = entries[field].get()
+            entries[field].delete(0, tkinter.END)
+
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        # membuat tabel jika belum ada
+        c.execute('''CREATE TABLE IF NOT EXISTS ruang_inap
+                    (ID TEXT, Nama_pasien TEXT, Ruang TEXT, Diagnosa TEXT)''')
+
+        num = str(random.randint(1, 10000)).zfill(6)
+        id = str("RI"+num)
+        # menambahkan data ke tabel
+        c.execute("INSERT INTO ruang_inap VALUES (?,?,?,?)",
+                  (id, data['Nama Pasien'], data['Ruang'], data['Diagnosa Utama']))
+        conn.commit()
+
+        # menutup koneksi ke database
+        conn.close()
+
+
+class UpdRuangInap():
+    def __init__(self, fieldslist, entries, table):
+        super().__init__()
+        data = {}
+        for field in fieldslist:
+            data[field] = entries[field].get()
+            entries[field].delete(0, tkinter.END)
+
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        selected_item = table.selection()[0]
+        values = table.item(selected_item)["values"]
+        # menambahkan data ke tabel
+        c.execute("UPDATE ruang_inap SET Nama_pasien = ?,Ruang=?,Diagnosa=? WHERE id = ?",
+                  (data['Nama Pasien'], data['Ruang'], data['Diagnosa Utama'], values[0]))
+        conn.commit()
+
+        # menutup koneksi ke database
+        conn.close()
+# =======================================================================================
+
+
 class DeleteD():
     def __init__(self, table, db):
         super().__init__()

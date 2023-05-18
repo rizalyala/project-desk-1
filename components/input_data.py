@@ -3,7 +3,7 @@ import sqlite3
 import tkinter as tk
 from tkinter import ttk
 from components.entry_ref import EntryRefDokter, EntryRefObat, EntryRefPasien, EntryRefPerawatan, EntryRefResObat
-from components.querydb import AddDokter, AddObat, AddPasien, AddPerawatan, AddRekam, AddResepObat, AddStaff, DeleteD, Readata, UpdObat, UpdPerawatan, UpdRekam, UpdResepObat, UpdStaff, UpdateDok, UpdatePas
+from components.querydb import AddDokter, AddObat, AddPasien, AddPerawatan, AddRekam, AddResepObat, AddRuangInap, AddStaff, DeleteD, Readata, UpdObat, UpdPerawatan, UpdRekam, UpdResepObat, UpdStaff, UpdateDok, UpdatePas
 import tkinter.messagebox as messagebox
 
 
@@ -731,6 +731,124 @@ class UpdateResep(tk.Frame):
             parent, text="Edit", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
         input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)
 
+# =======================================================================================
+
+
+class InputDataRuangInap(tk.Frame):
+    def __init__(self, parent, fieldslist, table, label):
+        super().__init__(parent)
+
+        def input_window():
+            window = tk.Toplevel()
+
+            window.geometry("1000x400")
+            window.resizable(False, False)
+
+            label_ = tk.Label(window, text=label)
+            label_.grid(row=0, column=1, columnspan=2)
+
+            def search_id(event):
+                entered_id = entry_search.get()
+                # Database
+                conn = sqlite3.connect("hospital.db")
+                cursor = conn.cursor()
+                querys = "SELECT Nama_pasien FROM pasien WHERE ID_pasien=?"
+                cursor.execute(querys, (entered_id,))
+                result = cursor.fetchone()
+                cursor.close()
+                conn.close()
+
+                if result:
+                    # Jika ditemukan, isikan Entry Nama dengan data yang sesuai
+                    # Menghapus teks yang ada di Entry Nama
+                    entries["Nama Pasien"].delete(0, tk.END)
+                    # Isi Entry Nama dengan data yang sesuai
+                    entries["Nama Pasien"].insert(0, result[0])
+                else:
+                    # Jika tidak ditemukan, kosongkan Entry Nama
+                    entries["Nama Pasien"].delete(0, tk.END)
+
+            # Search ID
+            entry_search_label = tk.Label(window, text="Search ID : ")
+            entry_search_label.grid(row=1, column=0, padx=10, pady=10)
+            entry_search = tk.Entry(window, width=35)
+            entry_search.grid(row=1, column=1, padx=10, pady=10)
+            entry_search.bind("<KeyRelease>", search_id)
+
+            entries = {}
+            for i, field in enumerate(fieldslist):
+                entry_label = tk.Label(window, text=field + " : ")
+                entry_label.grid(row=i+1, column=2, sticky="w", padx=10)
+
+                if field in opsi_rekam:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi_rekam[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
+                entry_.grid(row=i+1, column=3, padx=10, pady=10)
+
+                entries[field] = entry_
+
+            def submiting_data():
+                AddRuangInap(fieldslist, entries)
+                Readata(table, 'ruang_inap')
+
+                window.destroy()
+
+            submit_ = tk.Button(
+                window, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
+            submit_.grid(row=10, column=1, columnspan=3)
+
+        # Main
+        input_button = tk.Button(
+            parent, text="Add", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
+        input_button.grid(row=0, column=3, sticky="e", padx=5, pady=5)
+
+
+class UpdateRuangInap(tk.Frame):
+    def __init__(self, parent, fieldslist, table):
+        super().__init__(parent)
+
+        # Window
+        def input_window():
+            selected_item = table.selection()[0]
+            values = table.item(selected_item)["values"]
+
+            window = tk.Toplevel()
+
+            window.geometry("400x600")
+            window.resizable(False, False)
+
+            label_ = tk.Label(window, text="Input Ruang Inap")
+            label_.grid(row=0, column=1, columnspan=2)
+
+            entries = {}
+            for i, field in enumerate(fieldslist, start=1):
+                entry_label = tk.Label(window, text=field + " : ")
+                entry_label.grid(row=i+1, column=0, sticky="w", padx=10)
+                if field in opsi_resep:
+                    entry_ = ttk.Combobox(
+                        window, values=opsi_resep[field], width=32)
+                else:
+                    entry_ = tk.Entry(window, width=35)
+
+                entry_.insert(0, values[i])
+                entry_.grid(row=i+1, column=1, padx=10, pady=10)
+
+                entries[field] = entry_
+
+            def submiting_data():
+                UpdResepObat(fieldslist, entries, table)
+                Readata(table, 'ruang_inap')
+
+            submit_ = tk.Button(
+                window, text="Update", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=submiting_data)
+            submit_.grid(row=10, column=1, columnspan=2)
+
+        # Main
+        input_button = tk.Button(
+            parent, text="Edit", border=0, bg="#EF5B0C", padx=10, fg="white", font=("Arial", 9, "bold"), command=input_window)
+        input_button.grid(row=0, column=4, sticky="e", padx=5, pady=5)
 # =======================================================================================
 
 
