@@ -444,6 +444,7 @@ class Readata():
             c.execute("SELECT * FROM {}".format(db))
             data = c.fetchall()
 
+            # Detailed
             if db == 'pasien':
                 index = 1
                 if len(data) != 0:
@@ -518,5 +519,50 @@ class Readata():
                         table.insert('', 'end', text=str(index), values=(
                             row[0], row[1], row[2], row[3], row[4], row[5]))
                         index += 1
+                    conn.commit()
+                conn.close()
+            if db == 'ruang_inap':
+                index = 1
+                if len(data) != 0:
+                    table.delete(*table.get_children())
+                    for row in data:
+                        table.insert('', 'end', text=str(index), values=(
+                            row[0], row[1], row[2], row[3]))
+                        index += 1
+                    conn.commit()
+                conn.close()
+
+
+class ReadataHome():
+    def __init__(self, table, db, db2):
+        super().__init__()
+        # membuat koneksi ke database
+        conn = sqlite3.connect('hospital.db')
+        c = conn.cursor()
+
+        # Read Data
+        c.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='{}'".format(db))
+        result = c.fetchone()
+
+        if result:
+            # tabel tersedia, lakukan operasi yang diinginkan
+            c.execute("SELECT * FROM {}".format(db))
+            data = c.fetchall()
+            # Home
+            if db == 'pasien' and db2 == 'ruang_inap':
+                index = 1
+                if len(data) != 0:
+                    table.delete(*table.get_children())
+
+                    for row in data:
+                        c.execute(
+                            "SELECT * FROM ruang_inap WHERE Nama_pasien=?", (row[1],))
+                        data2 = c.fetchall()
+                        for row2 in data2:
+
+                            table.insert('', 'end', text=str(index), values=(
+                                row[0], row[1], row[9], row2[2]))
+                            index += 1
                     conn.commit()
                 conn.close()

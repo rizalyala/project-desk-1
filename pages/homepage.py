@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from components.tab_info import TableHome, TableHomeRelatedPatient
+from components.tab_info import TableHome
 
 
 class Homepage(tk.Frame):
@@ -12,10 +12,6 @@ class Homepage(tk.Frame):
         # TABEL STATISTIK PASIEN -----------------------------------------------------------
         table_patient_bar = TableHome(self)
         table_patient_bar.grid(row=1, column=1)
-
-        # PASIEN TERBARU
-        table_relpatient_bar = TableHomeRelatedPatient(self)
-        table_relpatient_bar.grid(row=2, column=1)
 
         # INFORMATION PANEL-------------------------------------------------------------------
         information_frame = ttk.Notebook(

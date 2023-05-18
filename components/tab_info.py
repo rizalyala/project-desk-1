@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from components.input_data import DeleteData, InputDataDokter, InputDataObat, InputDataPasien, InputDataPerawatan, InputDataRekam, InputDataResep, InputDataRuangInap, InputDataStaff, UpdateDokter, UpdateObat, UpdatePasien, UpdatePerawatan, UpdateRekam, UpdateResep, UpdateRuangInap, UpdateStaff
-from components.querydb import Readata
+from components.querydb import Readata, ReadataHome
 from components.search_bar import Search_name
 
 
@@ -34,13 +34,17 @@ class TableHome(tk.Frame):
         pasien_table_frame.add(pasien_table_tab2, text="Dokter")
 
         # Patient
-        pat_columns = ["No.", "Nama", "Ruangan", "Gejala", "Tanggal", "Umur"]
-        pat_widths = [50, 200, 70, 150, 100, 50]
-        pat_col_num = ["#0", "col1", "col2", "col3", "col4", "col5"]
+        pat_columns = ["No.", "ID", "Nama", "Tanggal", "Ruang"]
+        pat_widths = [50, 100, 200, 100, 100]
+        pat_col_num = ["#0", "col1", "col2", "col3", "col4"]
         table1 = ttk.Treeview(
             pasien_table_tab1, columns=(
-                "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
+                "col1", "col2", "col3", "col4"), style="my_style.Treeview")
         table1.grid(row=1, column=0, columnspan=2)
+
+        def readata():
+            ReadataHome(table1, 'pasien', 'ruang_inap')
+        readata()
         DefaultTable(col_name=pat_columns, col_num=pat_col_num,
                      widths=pat_widths, table=table1)
 
@@ -57,26 +61,6 @@ class TableHome(tk.Frame):
         # Search bar
         Search_name(
             pasien_table_tab1, tableFrame=pasien_table_tab1, tables=table1)
-
-
-class TableHomeRelatedPatient(tk.Frame):
-    def __init__(self, parent, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
-
-        # RELATED PATIENT---------------------------------------------------------------------
-        rel_columns = ["No.", "Nama", "Ruangan", "Gejala", "Tanggal", "Umur"]
-        rel_widths = [50, 200, 70, 150, 100, 50]
-        rel_col_num = ["#0", "col1", "col2", "col3", "col4", "col5"]
-
-        related_pasien_table_frame = ttk.LabelFrame(
-            self, text="Pasien terbaru")
-        related_pasien_table_frame.grid(row=2, column=1, padx=10, pady=10)
-
-        table = ttk.Treeview(related_pasien_table_frame, columns=(
-            "col1", "col2", "col3", "col4", "col5"))
-        table.pack(padx=5, pady=5)
-        DefaultTable(col_name=rel_columns, col_num=rel_col_num,
-                     widths=rel_widths, table=table)
 
 
 class Detailed_patient_table(tk.Frame):
@@ -325,9 +309,9 @@ class Detail_medis_table(tk.Frame):
                          "Ruang", "Diagnosa Utama"]
         ruangi_widths = [40, 100, 200, 100, 200]
         ruangi_col_num = ["#0", "col1", "col2",
-                          "col3", "col4", "col5"]
+                          "col3", "col4"]
         table_ruangi = ttk.Treeview(ruangi_table_tab, columns=(
-            "col1", "col2", "col3", "col4", "col5"), style="my_style.Treeview")
+            "col1", "col2", "col3", "col4"), style="my_style.Treeview")
         table_ruangi.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
 
         # Read Data
@@ -335,7 +319,7 @@ class Detail_medis_table(tk.Frame):
             Readata(table_ruangi, 'ruang_inap')
         readata()
 
-        empty_box = tk.Label(ruangi_table_tab, width=25,
+        empty_box = tk.Label(ruangi_table_tab, width=15,
                              )
         empty_box.grid(row=0, column=3, padx=5, pady=5)
         DefaultTable(ruangi_columns, ruangi_col_num,
