@@ -88,7 +88,7 @@ class Detailed_patient_table(tk.Frame):
         pat_det_col_num = ["#0", "col1", "col2", "col3",
                            "col4", "col5", "col6", "col7", "col8", "col9", "col10"]
         table_pat_det = ttk.Treeview(pasien_table_tab1, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9", "col10"))
+            "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9", "col10"), height=20)
 
         # Read Data
 
@@ -138,7 +138,7 @@ class Detailed_doctor_table(tk.Frame):
         doc_widths = [50, 100, 200, 200, 70]
         doc_col_num = ["#0", "col1", "col2", "col3", "col4"]
         table_doc = ttk.Treeview(doctor_table_tab1, columns=(
-            "col1", "col2", "col3", "col4"), style="my_style.Treeview")
+            "col1", "col2", "col3", "col4"), style="my_style.Treeview", height=20)
         table_doc.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
 
         # Read Data
@@ -186,7 +186,7 @@ class Detailed_staff_table(tk.Frame):
         staff_col_num = ["#0", "col1", "col2",
                          "col3", "col4", "col5", "col6", "col7"]
         table_staff = ttk.Treeview(staff_table_tab1, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
+            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview", height=20)
         table_staff.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
 
         # Read Data
@@ -233,7 +233,7 @@ class Detail_medis_table(tk.Frame):
         rekam_col_num = ["#0", "col1", "col2",
                          "col3", "col4", "col5", "col6", "col7"]
         table_rekam = ttk.Treeview(rekam_table_tab, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6", "col7"), style="my_style.Treeview")
+            "col1", "col2", "col3", "col4", "col5", "col6", "col7"), style="my_style.Treeview", height=20)
         table_rekam.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
 
         # Read Data
@@ -358,7 +358,7 @@ class Detail_lab_table(tk.Frame):
         obat_col_num = ["#0", "col1", "col2",
                         "col3", "col4", "col5", "col6"]
         table_obat = ttk.Treeview(obat_table_tab, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
+            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview", height=20)
         table_obat.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
 
         # Read Data
