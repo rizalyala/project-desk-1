@@ -272,7 +272,7 @@ class Detail_medis_table(tk.Frame):
         perawatan_col_num = ["#0", "col1", "col2",
                              "col3", "col4", "col5", "col6"]
         table_perawatan = ttk.Treeview(perawatan_table_tab, columns=(
-            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview")
+            "col1", "col2", "col3", "col4", "col5", "col6"), style="my_style.Treeview", height=20)
         table_perawatan.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
 
         # Read Data
@@ -311,7 +311,7 @@ class Detail_medis_table(tk.Frame):
         ruangi_col_num = ["#0", "col1", "col2",
                           "col3", "col4"]
         table_ruangi = ttk.Treeview(ruangi_table_tab, columns=(
-            "col1", "col2", "col3", "col4"), style="my_style.Treeview")
+            "col1", "col2", "col3", "col4"), style="my_style.Treeview", height=20)
         table_ruangi.grid(row=1, column=0, columnspan=7, padx=5, pady=5)
 
         # Read Data
